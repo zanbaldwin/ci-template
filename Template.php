@@ -36,7 +36,8 @@
    * @author     Alexander Baldwin
    * @copyright  (c) 2010 Alexander Baldwin
    * @license    http://www.opensource.org/licenses/mit-license.php MIT License
-   * @link       http://github.com/mynameiszanders/eci/blob/master/system/application/libraries/Template.php
+   * @link       http://github.com/mynameiszanders/ci-template/blob/master/Template.php
+   * @version    1.0
    */
   class Template_Base {
 
@@ -209,7 +210,8 @@
    * @author     Alexander Baldwin
    * @copyright  (c) 2010 Alexander Baldwin
    * @license    http://www.opensource.org/licenses/mit-license.php MIT License
-   * @link       http://github.com/mynameiszanders/eci/blob/master/system/application/libraries/Template.php
+   * @link       http://github.com/mynameiszanders/ci-template/blob/master/Template.php
+   * @version    1.0
    */
   class Template extends Template_Base {
 
@@ -876,7 +878,8 @@
    * @author     Alexander Baldwin
    * @copyright  (c) 2010 Alexander Baldwin
    * @license    http://www.opensource.org/licenses/mit-license.php MIT License
-   * @link       http://github.com/mynameiszanders/eci/blob/master/system/application/libraries/Template.php
+   * @link       http://github.com/mynameiszanders/ci-template/blob/master/Template.php
+   * @version    1.0
    */
   class Template_Section extends Template_Base {
   
