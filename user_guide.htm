@@ -39,7 +39,7 @@
   Once loaded, the Template library object will be available using: <dfn>$this->template</dfn>
 </p>
 
-<h1>Syntax</h1>
+<h1>Template Syntax</h1>
 <p>
   The syntax for the Template library is relatively simple - it's just a HTML
   comment! This is to ensure that if something should go wrong, for example, you
@@ -141,7 +141,7 @@
   sections; bearing a slight resemblence to PHP's arrays.
 </p>
 <code>
-  &lt;!-- File: "views/content.php" --&gt;
+  &lt;!-- File: "views/content.php" --&gt;<br />
   &lt;h3&gt;Featured&lt;/h3&gt;<br />
   &lt;!--{group_name[]}--&gt;
 </code>
@@ -158,6 +158,130 @@
   <span>This means that not specifying a group count means the reference tag gets translated:</span><br />
   <span>From </span>&lt;!--{ref[]}--&gt;<span> to </span>&lt;!--{ref[0]}--&gt;<span>.</span>
 </code>
+
+<h1>Other Features</h1>
+
+<h3>Data Propagation</h3>
+<p>
+  Data gets added to a section, and that data gets passed to the associated view
+  when it gets rendered.<br />
+  By default, that render of the view is the only view that has access to that
+  particular set of data. However, if you wish for sections to inherit their
+  parents data (and grandparents, and great-grandparents, etc.), then you can
+  enable the <strong>data propagation</strong> functionality.
+</p>
+<p>
+  Consider the following view, which shall be refered to as the view
+  "views/content.php", and the <em>document</em> view (defined at the top of
+  this page).
+</p>
+<code>
+  &lt;h2&gt;Page Content&lt;/h2&gt;<br />
+  &lt;p&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;?php<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo isset($para)<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;? $para<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 'N/A';<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;?&gt;<br />
+  &lt;/p&gt;
+</code>
+<p>If we executed the following in our controller:</p>
+<code>
+  $this-&gt;template-&gt;create(array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&gt; 'document',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'content',<br />
+  ));<br />
+  $this-&gt;template-&gt;autolink(true);<br />
+  <br />
+  // Add some example data.<br />
+  $this-&gt;template-&gt;section('shell')-&gt;add(array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'title' =&gt; 'Document Title',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'para' =&gt; 'This is my example paragraph, inherited from the parent section.',<br />
+  ));<br />
+  <br />
+  // Don't allow the data from parent sections to propagate. This is the default<br />
+  // setting, so the following first statement is just a reference.<br />
+  $this-&gt;template-&gt;propagate(false);<br />
+  $this-&gt;template-&gt;load('shell');<br />
+  <br />
+  echo "\n\n";<br />
+  <br />
+  // This time allow the data from parent sections to propagate down.<br />
+  $this-&gt;template-&gt;propagate(true);<br />
+  $this-&gt;template-&gt;load('shell');
+</code>
+<p>We should get the following HTML output:</p>
+<code>
+  &lt;!DOCTYPE html&gt;<br />
+  &lt;html&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;head&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Document Title&lt;/title&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/head&gt;<br />
+  <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;body&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--{header}--&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="content"&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Page Content&lt;/h2&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N/A<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- {footer} --&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/body&gt;<br />
+  &lt;/html&gt;<br />
+  <br />
+  <br />
+  &lt;!DOCTYPE html&gt;<br />
+  &lt;html&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;head&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Document Title&lt;/title&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/head&gt;<br />
+  <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;body&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--{header}--&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="content"&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Page Content&lt;/h2&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is my example paragraph, inherited from the parent section.<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- {footer} --&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/body&gt;<br />
+  &lt;/html&gt;
+</code>
+<p>
+  Notice that the header and footer reference tags are still there? That is because we didn't create the header and footer sections.
+</p>
+
+<h3>Autolinking</h3>
+
+<h3>Themes</h3>
+<p>
+  This is more of how you could use the template library, rather than a specific
+  feature.<br />
+  By utilising the <dfn>set_dir()</dfn> and <dfn>set_prefix()</dfn> methods, you
+  could split your templates into separate <em>themes</em> (sub-directories
+  within the views folder) and/or have multiple template <em>versions</em> for
+  different conditionals.
+</p>
+<p>
+  Example of such conditionals could be a mobile version of your site ("mobile_"
+  prefix), various regions ("emea_" prefix), or dare I suggest it... Browsers
+  ("<a href="http://www.bringdownie6.com/" title="Bring down IE6!">ie6_</a>"
+  prefix, anyone?).
+</p>
+<p class="important">
+  <strong>Note:</strong>
+  Relying on the User Agent header for browser detection on the server is not
+  fool proof and I do not recommend it. Please give your end user the option for
+  which version to view; too many times have I been stuck viewing the wrong
+  version of a site for the wrong platform. It's ANNOYING.
+</p>
+<p>
+  These are interchangable. <dfn>set_dir()</dfn> and <dfn>set_prefix()</dfn> use
+  different approaches to achieve the same end-result - organising your
+  templates.
+</p>
 
 <h1>Method Reference</h1>
 
@@ -297,7 +421,21 @@
 <h2>$this-&gt;template-&gt;section([<var>'section_name'</var>])</h2>
 <h2>$this-&gt;template-&gt;link(<samp>$links</samp>)</h2>
 <h2>$this-&gt;template-&gt;propagate(<kbd>boolean</kbd>)</h2>
+<p>
+  This changes the setting for enabling or disabling the data propagation
+  functionality. Pass a boolean with the value of <kbd>true</kbd> to enable or
+  <kbd>false</kbd> to disable.
+</p>
+<p>Data propagation is disabled by default.</p>
+
 <h2>$this-&gt;template-&gt;autolink(<kbd>boolean</kbd>)</h2>
+<p>
+  This method changes the setting for enabling or disabling the autolink
+  functionality. Yep, you've heard this before, but pass <kbd>true</kbd> to
+  enable and <kbd>false</kbd> to disable.
+</p>
+<p>Autolinking is enabled by default.</p>
+
 <h2>$this-&gt;template-&gt;autoload(<var>'config'</var>)</h2>
 <p>
   The autoload method enables us to save some time by setting up parts of the
@@ -405,8 +543,8 @@
   It will load the section you specify, pulling all it's linked descendants, and
   populating all sections with their data. Because this method will render
   itself and all its <strong>descendants</strong>, it is a good idea to have one
-  of your sections hold a <strong>root, or shell, view</strong> (ie. one that
-  does not have parents or siblings).
+  of your sections hold a <strong>root</strong>, or <strong>shell</strong>, view
+  (ie. one that does not have parents or siblings).
 </p>
 <p>
   While the first parameter is the section you wish to load (you may also pass a
