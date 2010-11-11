@@ -1,0 +1,589 @@
+<!DOCTYPE html><html><head><link href="http://codeigniter.com/user_guide/userguide.css" rel="stylesheet" media="all" /><title>Template Docs</title><style type="text/css">code{font-family: "Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L",Monaco,"Courier New",Courier,monospace !important;line-height:120% !important;}code span{color:#808080;}del{text-decoration:line-through !important;}ins{text-decoration:underline !important;}</style></head><body><div id="content">
+
+
+<h1>Template Library</h1>
+<p>
+  The Template library enables you to organise multiple views from multiple
+  themes into complex, nested sections and provide each one of those with
+  seperate data, choosing whether to allow that data to propagate to child
+  sections. These sections can be grouped, iterated and linked, with automatic
+  embedding within one another to create a fully functioning, yet modular, page.
+</p>
+<code>
+  $this-&gt;template-&gt;create(array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&gt; 'document',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'content',<br >
+  &nbsp;&nbsp;&nbsp;&nbsp;'featured' =&gt; 'featured_' . strtolower(date('D')),<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br >
+  ));<br >
+  <br />
+  $this-&gt;template-&gt;autolink(false);<br />
+  $this-&gt;template-&gt;link(array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&gt; array('header', 'content', 'footer'),<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'content' =&gt; array('featured'),<br />
+  ));<br />
+  <br />
+  $this-&gt;template-&gt;section('shell')-&gt;add('title', 'Template Library');<br />
+  <br />
+  $this-&gt;template-&gt;load('shell');
+</code>
+
+<h2>Initializing the Class</h2>
+<p>
+  Like most other classes in CodeIgniter, the Template library is initialized in your
+  controller using the <dfn>$this->load->library()</dfn> function:
+</p>
+<code>$this->load->library('template');</code>
+<p>
+  Once loaded, the Template library object will be available using: <dfn>$this->template</dfn>
+</p>
+
+<h1>Syntax</h1>
+<p>
+  The syntax for the Template library is relatively simple - it's just a HTML
+  comment! This is to ensure that if something should go wrong, for example, you
+  forgot to create a section that is referenced in the view, an ugly template
+  tag won't crop up on your page. The following HTML is the contents of a view
+  called "document", which will be referenced throughout this template
+  documentation.
+</p>
+<code>
+  &lt;!DOCTYPE html&gt;<br />
+  &lt;html&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;head&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;&lt;?php echo $title; ?&gt;&lt;/title&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/head&gt;<br />
+  <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;body&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--{header}--&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="content"&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--{content}--&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;{footer}&nbsp;--&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/body&gt;<br />
+  &lt;/html&gt;
+</code>
+<p>
+  As you can see, the syntax for referencing a section inside another is the
+  section name enclosed in braces, wrapped in a HTML comment tag. Whitespace is
+  allowed between the HTML comment tags and the braces, but not between the
+  braces and the section name.
+</p>
+<p>
+  Unfortunately, this isn't everything.<br />
+  To make this work you need to create the sections you are referencing first
+  via the <dfn>create()</dfn> or <dfn>acreate()</dfn> methods.<br />
+  <em>Secondly</em> (you cannot link together sections that do not yet exist),
+  you must then link those sections together using either the <dfn>link()</dfn>
+  method or enabling autolinking.
+</p>
+<code>
+  <span>// Create the sections we are going to use.</span><br />
+  $this-&gt;template-&gt;create(array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&gt; 'document',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'content',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br />
+  ));<br />
+  <br />
+  <span>// In most cases, just let the Template library link the sections together for you.</span><br />
+  <span>// Autolinking is enabled by default. The following is just a reference.</span><br />
+  $this-&gt;template-&gt;autolink(true);<br />
+  <br />
+  <span>// Sometimes you would want to manually specify the links between sections.</span><br />
+  $this-&gt;template-&gt;autolink(false);<br />
+  $links = array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&gt; array('header', 'content', 'footer'),<br />
+  );<br />
+  $this-&gt;template-&gt;link($links);
+</code>
+<p class="important">
+  <strong>Note:</strong>
+  Auto creation of sections will be a feature in a later version of this library, but is not
+  a high priority.
+</p>
+
+<h1>Groups</h1>
+<p>
+  Groups are a collection of sections; of which can be iterated over in the view.<br />
+  The simplest way to create a group is by specifying a collection of sections.
+</p>
+<code>
+  $this-&gt;template-&gt;create(array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'view1',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'view2',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'view3',<br />
+  ));<br />
+  <br />
+  <span>// Specify what you would like to call the group, and the sections it will contain.</span><br />
+  $this-&gt;template-&gt;group('group_name', array('view1', 'view2', 'view3'));
+</code>
+<p>
+  Once you have created a group, you can keep adding sections to it via the
+  <dfn>join()</dfn> method.
+</p>
+<code>
+  $this-&gt;template-&gt;create(array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'view1',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'view2',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'view3',<br />
+  ));<br />
+  $this-&gt;template-&gt;group('group_name', array('view1'));<br />
+  <br />
+  <span>// Specify the name of the group you wish to add to, and a list of sections to be added.</span><br />
+  $this-&gt;template-&gt;join('group_name', array('view2', 'view3'));
+</code>
+<h3>Anonymous Groups</h3>
+<h3>Syntax</h3>
+<p>
+  The syntax in your views for groups is slightly different to referencing
+  sections; bearing a slight resemblence to PHP's arrays.
+</p>
+<code>
+  &lt;!-- File: "views/content.php" --&gt;
+  &lt;h3&gt;Featured&lt;/h3&gt;<br />
+  &lt;!--{group_name[]}--&gt;
+</code>
+<h3>Mixing Sections and Groups</h3>
+<p>
+  The syntax for referencing sections and groups in views can be mixed. Each has
+  an equivalent which you can use.
+</p>
+<code>
+  <span>Specifying a section tag rather than a group tag means that you are referencing a singular object, which gets translated:</span><br />
+  <span>From </span>&lt;!--{ref}--&gt;<span> to </span>&lt;!--{ref[1]}--&gt;<span>.</span><br />
+  <br />
+  <span>Specifying a group count of zero in your view translates to unlimited.</span><br />
+  <span>This means that not specifying a group count means the reference tag gets translated:</span><br />
+  <span>From </span>&lt;!--{ref[]}--&gt;<span> to </span>&lt;!--{ref[0]}--&gt;<span>.</span>
+</code>
+
+<h1>Method Reference</h1>
+
+<h2>$this->template->set_dir(<var>'dir_name'</var>)</h2>
+<p>
+  This method accepts a directory name as its only input.
+  This is to set a sub-directory of the views directory to be used as the
+  directory to fetch views from, useful if you wish to split your views into
+  different themes.
+  Example:
+</p>
+<code>
+  <span>// The section will have the view "views/document.php".</span><br />
+  $this->template->create('document');<br />
+  <br />
+  <span>// The following section will have the view "views/myTheme/document.php".</span><br />
+  $this->template->set_dir('myTheme');<br />
+  $this->template->create('document');<br />
+  <br />
+  <span>// You can set a directory any number of levels deep, too.</span><br />
+  $this->template->set_dir('nested/directories/work/fine');
+</code>
+<p>
+  The first, and only, parameter contains the name of the directory, relative to
+  the views folder. If the directory you specify does not exist, the sub-directory
+  will not be set and the method will return <kbd>false</kbd>.<br />
+  Returns <kbd>true</kbd> on success.
+</p>
+
+<h2>$this->template->set_prefix(<var>'prefix'</var>)</h2>
+<p>
+  Like set_dir(), except you specify a string to be prepended onto the view filename.
+</p>
+<code>
+  <span>// The section will have the view "views/prefix_document.php".</span><br />
+  $this->template->set_prefix('prefix_');<br />
+  $this->template->create('document');
+</code>
+<p>
+  The first, and only, parameter must be a string containing alphanumeric
+  characters only, and cannot start with a digit. If the string you pass adheres
+  to this check, the prefix will be set and the method return <kbd>true</kbd>, if not,
+  <kbd>false</kbd>.
+</p>
+
+<h2>$this->template->view_exists(<var>'view_name'</var>)</h2>
+<p>
+  Does what it say's on the tin, really. Pass it a view name, and it will return
+  a boolean value depending on whether the view exists or not. This function will
+  also depend on whether you have used <dfn>set_prefix()</dfn> or <dfn>set_dir()</dfn>
+  previously.
+</p>
+<code>
+  <span>// Imagine, if you will, you have the following in your views folder:</span><br />
+  <span>// document.php</span><br />
+  <span>// myTheme / prefix_header.php</span><br />
+  <br />
+  $this->template->view_exists('document');                  // bool(true)<br />
+  $this->template->view_exists('myTheme/prefix_header.php'); // bool(true)<br />
+  <br />
+  $this->template->set_dir('myTheme');<br />
+  $this->template->view_exists('header');                    // bool(false)<br />
+  <br />
+  $this->template->set_prefix('prefix_');<br />
+  $this->template->view_exists('header')                     // bool(true);
+</code>
+
+<h2>$this->template->section_exists(<var>'section_name'</var>)</h2>
+<p>
+  To check whether a section exists, funnily enough. Pass it a string containing
+  what you named your section, and it will return a boolean value depending on
+  whether it exists or not.
+</p>
+<code>
+  $this->template->create('document');<br />
+  <br />
+  <span>// Did we create that section? I can't remember now.</span><br />
+  if($this->template->section_exists('document')) {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;$this->template->section('document')->add('data', 'some_data');<br />
+  }
+</code>
+
+<h2>$this-template->create(<samp>$sections</samp> | <var>'section_name'</var>, [<var>'view_name'</var>])</h2>
+<p>
+  This is where the magic starts! This is a flexible function to create sections
+  from views.
+</p>
+<code>
+  <span>// Don't forget that sub-directory and prefix apply here.</span><br />
+  <br />
+  <span>// Create a section called "document" from the view "views/document.php".</span><br />
+  $this-&gt;template-&gt;create('document');<br />
+  <br />
+  <span>// Create a section called "document" from the view "views/myDocument.php".</span><br />
+  $this-&gt;template-&gt;create('document', 'myDocument');<br />
+  <br />
+  <span>// Create multiple sections in one call.</span><br />
+  $sections = array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'document' =&gt; 'myDocument',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br />
+  );<br />
+  $this-&gt;template-&gt;create($sections);
+</code>
+<p>
+  When you create a section, it automatically becomes the <strong>active section</strong>.
+  If you passed an array, the last element in the array will become the active section.
+</p>
+
+<h2>$this->template->acreate(<samp>$sections</samp> | <var>'section_name'</var>, <var>'content'</var>)</h2>
+<p>
+  Create an <strong>anonymous section</strong>. An anonymous section is where
+  you pass the content directly into the section, rather than loading it from a
+  view.
+</p>
+<p class="important">
+  <strong>Note:</strong>
+  Although you can still add data to the section, and retrieve it with the
+  <dfn>data()</dfn> method, the output/content of an anonymous section will always be the
+  string you passed, unaltered.
+</p>
+<code>
+  $this-&gt;template-&gt;acreate('content', '&lt;p&gt;This is my documents content!&lt;/p&gt;');<br />
+  <br />
+  $sections = array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'content' =&gt; '&lt;p&gt;This is my content.&lt;/p&gt;',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'footer' =&gt; '&amp;copy; 2010.'<br />
+  );<br />
+  $this->template->acreate($sections);
+</code>
+
+<h2>$this-&gt;template-&gt;group(<var>'group_name'</var>, <samp>$sections</samp>)</h2>
+<h2>$this-&gt;template-&gt;agroup(<var>'section_name'</var>, <var>'view_name'</var>, [<samp>$data</samp>])</h2>
+<h2>$this-&gt;template-&gt;join(<var>'group_name'</var>, <samp>$sections</samp>)</h2>
+<h2>$this-&gt;template-&gt;ajoin(<var>'group_name'</var>, <var>'view_name'</var>, [<samp>$data</samp>])</h2>
+<h2>$this-&gt;template-&gt;active(<var>'section_name'</var>)</h2>
+<h2>$this-&gt;template-&gt;section([<var>'section_name'</var>])</h2>
+<h2>$this-&gt;template-&gt;link(<samp>$links</samp>)</h2>
+<h2>$this-&gt;template-&gt;propagate(<kbd>boolean</kbd>)</h2>
+<h2>$this-&gt;template-&gt;autolink(<kbd>boolean</kbd>)</h2>
+<h2>$this-&gt;template-&gt;autoload(<var>'config'</var>)</h2>
+<p>
+  The autoload method enables us to save some time by setting up parts of the
+  template library from config. You may either pass the name of a config file
+  you wish to use, or pass the array directly to the method.<br />
+  The following is an example of all the options available.
+</p>
+<code>
+  <span>// Load the options from a config file.</span><br />
+  $loaded = $this-&gt;template-&gt;autoload('template');<br />
+  <br />
+  <span>// Or you can pass the array directly to the method if that fails.</span><br />
+  if(!$loaded) {<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;$config = get_config('template');<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;template-&gt;autoload($config);<br />
+  }
+</code>
+<p class="important">
+  <strong>Note:</strong>
+  If the method fails to load a config file specified, then loading it through
+  <dfn>get_config()</dfn> will fail, also, as this function is called within the
+  method.
+</p>
+<code>
+  $config = array();<br />
+  <br />
+  $config['set_dir'] = 'subfolder';<br />
+  $config['set_prefix'] = 'mobilesite_';<br />
+  <br />
+  $config['create']   = array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'shell' => 'document',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'content',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'featured_01' => 'featured_box',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'featured_02' => 'featured_box',<br />
+  );<br />
+  <br />
+  $config['group'] = array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<span>// We can extend the "features" group in the controller with Template::join().</span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'features' => array('featured_01', 'featured_02'),<br />
+  );<br />
+  <br />
+  $config['add']      = array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'shell' => array('title' => 'Your Site Name'),<br />
+  );<br />
+  <br />
+  $config['autolink'] = false;<br />
+  $config['link'] = array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'shell' => array('header', 'footer', 'content'),<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'content' => array('features'),<br />
+  );
+</code>
+<p>
+  Each option in the config refers to it's respective method in the Template
+  library. Note that the order in which you specify them in the array or config
+  does not affect the outcome.
+</p>
+<p class="important">
+  <strong>Note:</strong>
+  This method will return a boolean value depending on whether it could fetch
+  the config successfully (if it could load the config file or an array was
+  passed). It does not return a value depending on the success of the autoload,
+  if one ore more of the options fail, they will just be ignored.
+</p>
+<h3>set_dir</h3>
+<p>
+  This takes exactly the same parameter as <dfn>set_dir()</dfn> - an individual
+  string.
+</p>
+<h3>set_prefix</h3>
+<p>
+  This takes exactly the same parameter as <dfn>set_prefix()</dfn> - an
+  individual string.
+</p>
+<h3>create</h3>
+<p>
+  This takes <dfn>create()</dfn>'s single array argument.
+</p>
+<h3>group</h3>
+<p>
+  This takes an array of <dfn>group()</dfn> parameters, where the array key is
+  the group name, and the value is an array of sections.
+</p>
+<h3>add</h3>
+<p>
+  Similar to the group option. This takes an array of the arrays you would pass
+  to <dfn>add()</dfn>, where the array key is the section name.
+</p>
+<h3>autolink</h3>
+<p>
+  Takes a boolean value of whether you want to autolink or not.<br />
+  If you set this to <kbd>true</kbd>, then the link option will be ignored
+  regardless.
+</p>
+<h3>link</h3>
+<p>
+  This takes a single parameter, which is identical to the one you would pass to
+  <dfn>link()</dfn> - an individual array.
+</p>
+
+<h2>$this-&gt;template-&gt;load(<var>'section_name'</var>, <kbd>boolean</kbd>)</h2>
+<p>
+  This method is usually the last one you will call from the Template library.
+  It will load the section you specify, pulling all it's linked descendants, and
+  populating all sections with their data. Because this method will render
+  itself and all its <strong>descendants</strong>, it is a good idea to have one
+  of your sections hold a <strong>root, or shell, view</strong> (ie. one that
+  does not have parents or siblings).
+</p>
+<p>
+  While the first parameter is the section you wish to load (you may also pass a
+  section object if you wish), the second parameter controls what happens with
+  the rendered output; pass <kbd>true</kbd> will return the output as a string
+  instead of appending it to the output buffer of CodeIgniter's Output class.
+</p>
+<p class="important">
+  <strong>Note:</strong>
+  This method can only take a valid section as its argument; groups cannot be
+  rendered directly - they must be referenced from within a view.
+</p>
+<code>
+  $this-&gt;template-&gt;create('shell', 'document');<br />
+  <br />
+  <span>// Render all your sections and send to output buffer.</span><br />
+  $this->template->load('shell');<br />
+  <br />
+  <span>// If you'd prefer the rendered output to return rather than be sent to</span><br />
+  <span>// CodeIgniter's Output class, pass bool(true) as the second parameter.</span><br />
+  $output = $this-&gt;template-&gt;load('shell', true);<br />
+  <br />
+  <span>// You can also pass a section object to load.</span><br />
+  $section = $this-&gt;template-&gt;section('shell');<br />
+  $this-&gt;template-&gt;load($section);
+</code>
+
+<h1>Section Method Reference</h1>
+<h2>$this-&gt;template-&gt;section()-&gt;name()</h2>
+<p>
+  Returns the name of the section. Whilst this won't really be used much, as
+  most of the library uses string to identify sections, there may be times where
+  you have the section object, and wish to know the name.
+</p>
+<code>
+  <span>// You've been given the $section variable from somewhere.</span><br />
+  $section = $this->template->section($unknown_value);<br />
+  <br />
+  <span>// And viola! We know what section it is now!</span><br />
+  $section_name = $section->name();
+</code>
+<p>This method takes no parameters.</p>
+
+<h2>$this->template->section()->view()</h2>
+<p>
+  Returns the name of the view that the section is using. This will the view you
+  specified with the <dfn>create()</dfn> method, and will not contain the view
+  prefix.
+</p>
+<p class="important">
+  <strong>Note:</strong>
+  An anonymous section will return the boolean <kbd>false</kbd>.
+</p>
+<p>This method takes no parameters.</p>
+
+<h2>$this-&gt;template-&gt;section()-&gt;data([<samp>$data</samp>])</h2>
+<p>
+  This method, with no parameters passed, will return all the data that has been
+  added to the section so far. If an array is passed as the first parameter, it
+  will act in the same way as the <dfn>add()</dfn> method, with the exception of
+  keeping the sections original value if a variable with the same name has
+  already been added. This method is used to pass a parent data to its child if
+  data propagation is enabled.
+</p>
+<code>
+  <span>// Fetch the data that we have added to the section already.</span><br />
+  $data = $this->template->section()->data();<br />
+  <br />
+  <span>// Let the section inherit another sections data.</span><br />
+  $data = $this->template->section('another_section')->data();<br />
+  $this->template->section()->data($data);
+</code>
+
+<h2>$this-&gt;template-&gt;section()-&gt;content()</h2>
+<p>
+  Return the content of the section. If this is an anonymous section, then it
+  will simply return the string you supplied it when you created it.<br />
+  If this section is associated with a view (and it most likely will be), the
+  view will be loaded with the data provided, just as a normal view does.
+</p>
+<p class="important">
+  <strong>Note:</strong>
+  When getting a sections content, this library does not load the view via
+  CodeIgniter's <a href="http://codeigniter.com/user_guide/libraries/loader.html" title="Loader Documentation Page"><dfn>Loader::view()</dfn></a>.<br />
+  Instead it uses its own implementation - a protected method called
+  <dfn>load_view()</dfn> - to prevent CodeIgniter caching the views data and
+  using it in other views. This would contradict the data propagation
+  functionality.
+</p>
+<p class="important">
+  <strong>Note:</strong>
+  When the content is returned, it will still contain the section references,
+  even if you have specifically linked them using the <dfn>link()</dfn> method.<br />
+  Sections are not combined until the <dfn>load()</dfn> method is invoked.
+</p>
+<code>
+  <span>// For example.</span><br />
+  $html = $this->template->section()->content();
+</code>
+<p>
+  This method takes no <del>prisoners</del> <ins>parameters</ins>.
+</p>
+
+<h2>$this-&gt;template-&gt;section()-&gt;add(<samp>$data</samp> | <var>'name'</var>, <var>'value'</var>)</h2>
+<p>
+  Adding data to a section is the same as passing data to a view. The data in
+  the section is stored in the object - accessible via the <dfn>data()</dfn>
+  section method - and passed to the view when the <dfn>content()</dfn> section
+  method is called. You may keep calling this method over and over again to
+  stock-pile your data, ready to be used within the sections designated view.
+</p>
+<code>
+  $this-&gt;template-&gt;section()-&gt;add('variable_name', 'variable_value');<br />
+  $this-&gt;template-&gt;section()-&gt;add('another_variable', 123);<br />
+  <br />
+  <span>// Passing an array as the only parameter allows you to pass multiple sets of</span><br />
+  <span>// data at once, just like when you load a view.</span><br />
+  $data = array(<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'var1' =&gt; 'value1',<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;'var2' =&gt; 'value2',<br />
+  );<br />
+  $this-&gt;template-&gt;section()-&gt;add($data);
+</code>
+
+<h1>Magic Methods</h1>
+<p>
+  A couple of PHP's magic methods are implemented in section objects as
+  shortcuts.
+</p>
+<h3>Treating a section object as a string</h3>
+<p>
+  Treating a section object as a string is a shortcut for returning the output
+  of the <dfn>load()</dfn> method, had it been called on that section.
+</p>
+<code>
+  $shell = $this-&gt;template-&gt;section('shell');<br />
+  <br />
+  <span>// The following two statements are equivalent:</span><br />
+  echo $this-&gt;template-&gt;load('shell', true);<br />
+  echo $shell;<br />
+  <br />
+  <span>// Notice that we echo'd out what was returned from the load() method. The</span><br />
+  <span>// following two statements are also equivalent:</span><br />
+  $this-&gt;template-&gt;load('shell');<br />
+  $this-&gt;output-&gt;append_output($shell);
+</code>
+<p class="important">
+  <strong>Note:</strong>
+  Remember that the string returned will not have been passed to CodeIgniter's
+  Output class, so if you are using the pseudo-variables
+  <var>{elapsed_time}</var> or <var>{memory_usage}</var>, these will not have
+  been parsed at this time.
+</p>
+<h3>Treating a section object as a function</h3>
+<p>
+  Treating a section object as a function is a shortcut to the sections
+  <dfn>add()</dfn> method. Please refer to that method for the parameters it
+  accepts.
+</p>
+<code>
+  $shell = $this-&gt;template-&gt;section('shell');<br />
+  $shell('title', 'Your Document Title');
+</code>
+<p class="important">
+  <strong>Note:</strong>
+  This feature is only available to PHP versions 5.3+
+</p>
+
+<h1>Accreditations</h1>
+<p>
+  Template library, by <a href="http://github.com/mynameiszanders" title="GitHub Profile">Alexander Baldwin</a>;
+  written for the <a href="http://codeigniter.com" title="CodeIgniter Homepage">CodeIgniter</a> PHP Application
+  Framework, by <a href="http://ellislab.com" title="EllisLab, Inc.">EllisLab</a>.
+</p>
+<p>
+  Please view the CodeIgniter <a href="http://codeigniter.com/user_guide/license.html" title="CodeIgniter's License Agreement">license agreement</a>
+  before using the framework, or this library.
+</p>
+
+</div></body></html>
