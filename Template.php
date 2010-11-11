@@ -394,7 +394,7 @@
      * @param array|object OR string+string
      * @return void
      */
-    public function create($views) {
+    public function create() {
       $args = func_get_args();
       switch(func_num_args()) {
         case 1:
