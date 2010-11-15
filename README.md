@@ -5,11 +5,11 @@ A Template library for [CodeIgniter] [4], by [Alexander Baldwin] [1] and
 licensed under your choice of either the [MIT] [2] or [GPL] [3] open source
 licenses.
 
-It enables you to organise multiple views from multiple themes into complex,
-nested sections and provide each one of those with seperate data, choosing
-whether to allow that data to propagate to child sections. These sections can be
-grouped, iterated and linked, with automatic embedding within one another to
-create a fully functioning, yet modular, page.
+The CodeIgniter Template library enables you to organise multiple views
+into complex, nested sections providing each one with seperate data sets,
+controlling data propagation. These sections can be grouped, iterated and
+linked with automatic embedding to create a fully functioning, yet modular,
+page.
 
 To read more about this library, please refer to the [online copy of the user guide] [5].
 
