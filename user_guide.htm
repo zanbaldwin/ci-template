@@ -7,7 +7,7 @@
       CodeIgniter license agreement at http://codeigniter.com/user_guide/license.html.
     -->
     <title>Template Library: CodeIgniter User Guide</title>
-    <link href="http://mynameiszanders.github.com/ci-template/userguide.css" rel="stylesheet" media="all" title="Documentation Stylesheet" type="text/css" />
+    <link href="http://mynameiszanders.github.com/ci-template/userguide.css" rel="stylesheet" media="all" title="EllisLab Documentation Stylesheet" type="text/css" />
     <meta charset="utf-8" />
     <meta name="author" content="Alexander Baldwin" />
     <meta name="description" content="A CodeIgniter Template library, hosted on GitHub, to organise multiple views into complex, nested sections each with seperate data, controlling data propagation to child sections. Sections can be grouped, iterated, linked  with automatic embedding to create a fully functioning, yet modular, page." />
@@ -155,7 +155,8 @@
       <h1>Groups</h1>
       <p>
         Groups are a collection of sections; of which can be iterated over in the view.<br />
-        The simplest way to create a group is by specifying a collection of sections.
+        The simplest way to create a group is by specifying a collection of sections via the
+        <dfn>group()</dfn> method.
       </p>
       <code>
         $this-&gt;template-&gt;create(array(<br />
@@ -182,7 +183,6 @@
         <span>// Specify the name of the group you wish to add to, and a list of sections to be added.</span><br />
         $this-&gt;template-&gt;join('group_name', array('view2', 'view3'));
       </code>
-      <h3>Anonymous Groups</h3>
       <h3>Syntax</h3>
       <p>
         The syntax in your views for groups is slightly different to referencing
@@ -192,6 +192,46 @@
         &lt;!-- File: "views/content.php" --&gt;<br />
         &lt;h3&gt;Featured&lt;/h3&gt;<br />
         &lt;!--{group_name[]}--&gt;
+      </code>
+      <h3>Anonymous Groups</h3>
+      <p>
+        Anonymous groups are useful for using views to iterate over sets of data,
+        without having to create each individual section. Essentially, passing an
+        array of data sets is a shortcut for creating a section, populating it with
+        a set of data, and adding it to a group multiple times.
+      </p>
+      <code>
+        <span>// Grab some data to create lots of views from.</span><br />
+        $db = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);<br />
+        $query = "SELECT `id`, `and`, `various`, `pieces`, `of, `data`<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM `your_db`.`your_tbl`<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE `condition` = 'value'<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIMIT 5;";<br />
+        $results = $db-&gt;query($query);<br />
+        <br />
+        <span>// Create a group, consisting of multiple versions of a specified view from the data passed.</span><br />
+        $this-&gt;template-&gt;agroup('group_name', 'view_name', $results->fetch_all());<br />
+        <br />
+        <span>// For comparison, this is the same as the following.</span><br />
+        $this-&gt;template-&gt;group('group_name');<br />
+        while($row = $results-&gt;fetch_assoc()) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;template-&gt;create('section_' . $row['id'], 'view_name');<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;template-&gt;section()->add($row);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;template-&gt;join('group_name', $this-&gt;template-&gt;section());<br />
+        }
+      </code>
+      <p>
+        If you don't want all the sections in the group to have the same view, you can use the <dfn>ajoin()</dfn> method.
+      </p>
+      <code>
+        <span>// Grab your two sets of data.</span><br />
+        $db = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);<br />
+        $males = $db-&gt;query("SELECT * FROM your_tbl WHERE `gender` = 'male' LIMIT 5;");<br />
+        $females = $db-&gt;query("SELECT * FROM your_tbl WHERE `gender` = 'female' LIMIT 5;");<br />
+        <br />
+        <span>// Create your anonymous group, and then add more anonymous sections which are associated with a different view.</span><br />
+        $this-&gt;template-&gt;agroup('group_name', 'profile_males', $males-&gt;fetch_all());<br />
+        $this-&gt;template-&gt;ajoin('group_name', 'profile_females', $females-&gt;fetch_all());
       </code>
       <h3>Mixing Sections and Groups</h3>
       <p>
@@ -297,8 +337,10 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&lt;/body&gt;<br />
         &lt;/html&gt;
       </code>
-      <p>
-        Notice that the header and footer reference tags are still there? That is because we didn't create the header and footer sections.
+      <p class="important">
+        <strong>Note:</strong>
+        Notice that the header and footer reference tags are still there? That is
+        because we didn't create the header and footer sections.
       </p>
 
       <h3>Autolinking</h3>
