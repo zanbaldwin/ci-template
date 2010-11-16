@@ -96,6 +96,29 @@
         Please refer to the CodeIgniter user guide on <a href="http://codeigniter.com/user_guide/general/creating_libraries.html" title="Creating your own classes for CodeIgniter">creating your own classes</a>
         for more information.
       </p>
+      <h2>Including as a Submodule</h2>
+      <p>
+        You may include the Template library as a submodule to your Git versioned
+        CodeIgniter project. The following commands - assuming your current working
+        directory is your CodeIgniter installation, and that the directory structure
+        is the same as a typical install - create the submodule (you must specify
+        a directory that does not yet exist in your Git index), and then switches
+        to the branch "submodule".<br />
+        The "submodule" branch is a regularly updated copy of master, containing
+        only the library itself; no unnecessary files.
+      </p>
+      <code>
+        $ git submodule add http://github.com/mynameiszanders/ci-template.git system/application/libraries/template
+        $ cd system/application/libraries/template
+        $ git checkout submodule
+      </code>
+      <p>
+        This method means you can update the Template library separately from your project, however, there is a slight limitation due to the way Git handles submodules.
+      </p>
+      <code>
+        <span>// Instead of loading the library the usual way, you will have to specify the extra directory.</span><br />
+        $this-&gt;load-&gt;library('template/template');
+      </code>
 
       <h2>Initializing the Class</h2>
       <p>
