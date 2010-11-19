@@ -21,6 +21,13 @@
     exit('No direct script access allowed');
   }
 
+  // The following is the PCRE RegEx to check that a string adheres to the same
+  // naming standards as PHP variables, functions and class names.
+  defined('VALIDLABEL') || define(
+    'VALIDLABEL',
+    '[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
+  );
+
 // -----------------------------------------------------------------------------
 
   /**
@@ -45,11 +52,6 @@
     // extends this base.
     protected static $subdir = '',
                      $prefix = '';
-    // The following is the regex to check that a variable name is
-    // valid for PHP, as there is no point allowing a variable that
-    // can't be used within a view (we won't go into the
-    // technicalities of quoted brace variables!).
-    protected $valid_name = '[a-zA-Z_][a-zA-Z0-9_]*';
 
     /**
      * Is Varname
@@ -59,7 +61,7 @@
      * @return boolean
      */
     protected function is_varname($varname) {
-      if(!is_string($varname) || !preg_match('/^' . $this->valid_name . '$/', $varname)) {
+      if(!is_string($varname) || !preg_match('/^' . VALIDLABEL . '$/', $varname)) {
         return false;
       }
       return true;
@@ -797,7 +799,7 @@
       // Now we have the content of the section, search using regex for
       // pseudo-links.
       $regex = '/\<\!--\s*\{('
-             . $this->valid_name
+             . VALIDLABEL
              . ')(\[([0-9]+)?\])?\}\s*--\>/';
       if(preg_match_all($regex, $content, $matches, PREG_SET_ORDER)) {
         // We have found a minimum of one match. Start linking.
