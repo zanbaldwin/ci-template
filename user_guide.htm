@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Template Library: CodeIgniter User Guide</title>
+    <meta charset="utf-8" />
     <!--
       Although "Ellislab is making the markup and CSS from the CodeIgniter user
-      guide freely available to the community for their use", please refer to the
-      CodeIgniter license agreement at http://codeigniter.com/user_guide/license.html.
+      guide freely available to the community for their use", please refer to
+      the CodeIgniter license agreement at:
+      http://codeigniter.com/user_guide/license.html
     -->
-    <title>Template Library: CodeIgniter User Guide</title>
-    <link href="http://mynameiszanders.github.com/ci-template/userguide.css" rel="stylesheet" media="all" title="EllisLab Documentation Stylesheet" type="text/css" />
-    <meta charset="utf-8" />
     <meta name="author" content="Alexander Baldwin" />
     <meta name="description" content="A CodeIgniter Template library, hosted on GitHub, to organise multiple views into complex, nested sections each with seperate data, controlling data propagation to child sections. Sections can be grouped, iterated, linked  with automatic embedding to create a fully functioning, yet modular, page." />
     <meta name="keywords" content="template, library, class, codeigniter, framework, section, theme, reference, data, propagation, autolinking, application, git, github" />
+    <!--
+      The online version of the User Guide uses LeSS instead of CSS, but
+      unfortunately AJAX requests cannot be cross-domain, so we are going to
+      fall back to plain CSS for the downloadable version of the User Guide.
+    -->
+    <link href="http://mynameiszanders.github.com/ci-template/userguide.css" rel="stylesheet" media="all" title="User Guide Stylesheet" type="text/css" />
   </head>
 
   <body>
@@ -20,7 +26,7 @@
       <img src="./ribbon.png" alt="Fork me on GitHub" title="Fork me on GitHub" height="149" width="149" />
     </a>
 
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+    <table style="width:100%;padding:0;border:0;border-spacing:0;">
       <tr>
         <td id="breadcrumb">
           <a href="http://codeigniter.com/" target="_blank">CodeIgniter Home</a> &#8250;
@@ -32,6 +38,8 @@
 
     <br class="all" />
     <div id="content">
+
+
 
       <h1>Template Library</h1>
       <p class="important">
@@ -48,24 +56,25 @@
         page.
       </p>
       <code>
-        $this-&gt;template-&gt;create(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&gt; 'document',<br />
+        $this-&#62;template-&#62;create(array(<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; 'document',<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'content',<br >
-        &nbsp;&nbsp;&nbsp;&nbsp;'featured' =&gt; 'featured_' . strtolower(date('D')),<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'featured' =&#62; 'featured_' . strtolower(date('D')),<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br >
         ));<br >
         <br />
-        $this-&gt;template-&gt;autolink(false);<br />
-        $this-&gt;template-&gt;link(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&gt; array('header', 'content', 'footer'),<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'content' =&gt; array('featured'),<br />
+        $this-&#62;template-&#62;autolink(false);<br />
+        $this-&#62;template-&#62;link(array(<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; array('header', 'content', 'footer'),<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'content' =&#62; array('featured'),<br />
         ));<br />
         <br />
-        $this-&gt;template-&gt;section('shell')-&gt;add('title', 'Template Library');<br />
+        $this-&#62;template-&#62;section('shell')-&#62;add('title', 'Template Library');<br />
         <br />
-        $this-&gt;template-&gt;load('shell');
+        $this-&#62;template-&#62;load('shell');
       </code>
+
 
       <h2>Downloading</h2>
       <p>
@@ -86,8 +95,12 @@
         However, if you would like to be loved even more, then <a href="http://github.com/mynameiszanders/ci-template#fork-box" title="Fork the repository mynameiszanders/ci-template@master">fork the repository</a>,
         make some improvements, and send a
         <a href="https://github.com/mynameiszanders/ci-template/pull/new/master" title="Send a pull request on mynameiszanders/ci-template@master">pull request</a>!<br />
-        If you need help with either of these processes, please refer to the GitHub help guide on <a href="http://help.github.com/forking/" title="Help.GitHub - Forking a project">forking</a> and <a href="http://help.github.com/pull-requests/" title="Help.GitHub - Sending pull requests">pull requests</a>.
+        If you need help with either of these processes, please refer to the GitHub
+        help guide on <a href="http://help.github.com/forking/" title="Help.GitHub - Forking a project">forking</a> and
+        <a href="http://help.github.com/pull-requests/" title="Help.GitHub - Sending pull requests">pull requests</a>.
       </p>
+
+
       <h2>Installation</h2>
       <p>
         To install this library, just copy the file <dfn>Template.php</dfn> to the libraries
@@ -96,34 +109,50 @@
         Please refer to the CodeIgniter user guide on <a href="http://codeigniter.com/user_guide/general/creating_libraries.html" title="Creating your own classes for CodeIgniter">creating your own classes</a>
         for more information.
       </p>
+
+
       <h2>Including as a Submodule</h2>
       <p>
         You may include the Template library as a submodule to your Git versioned
-        CodeIgniter project. The following commands - assuming your current working
-        directory is your CodeIgniter installation, and that the directory structure
-        is the same as a typical install - create the submodule (you must specify
-        a directory that does not yet exist in your Git index), and then switches
-        to the branch "submodule".<br />
-        The "submodule" branch is a regularly updated copy of master, containing
-        only the library itself; no unnecessary files.
+        CodeIgniter project. This is useful is you wish to use the Template library,
+        without including it in your versioned project files.<br />
+        The following commands assume that your current working directory is your
+        CodeIgniter installation, with the typical directory structure. You may
+        need to ammend the directory paths as appropriate.
       </p>
       <code>
-        $ git submodule add http://github.com/mynameiszanders/ci-template.git system/application/libraries/template
-        $ cd system/application/libraries/template
+        $ git submodule add http://github.com/mynameiszanders/ci-template.git system/application/libraries/template<br />
+        $ cd system/application/libraries/template<br />
         $ git checkout submodule
       </code>
+      <p>
+        These commands create the submodule in your application's libraries folder,
+        and then switch to the branch "submodule". This branch contains only a regularly
+        updated copy of the library itself (from the master branch) - no unnecessary
+        files.
+      </p>
+      <p class="important">
+        <strong>Note:</strong>
+        The directory you choose to place the Template library submodule must not
+        yet exist in your Git index.<br />
+        For more information, please check out the
+        <a href="http://www.kernel.org/pub/software/scm/git/docs/git-submodule.html" title="git-submodule(1) man page">git-submodule man page</a>.
+      </p>
+
 
       <h2>Initializing the Class</h2>
       <p>
-        Like most other classes in CodeIgniter, the Template library is initialized in your
-        controller using the <dfn>$this->load->library()</dfn> function:
+        Like most other classes in CodeIgniter, the Template library is initialized
+        in your controller using the <dfn>$this->load->library()</dfn> function:
       </p>
       <code>$this->load->library('template');</code>
       <p>
         Once loaded, the Template library object will be available using: <dfn>$this->template</dfn>
       </p>
 
-      <h1>Template Syntax</h1>
+
+
+      <h1 id="syntax">Template Syntax</h1>
       <p>
         The syntax for the Template library is relatively simple - it's just a HTML
         comment! This is to ensure that if something should go wrong, for example, you
@@ -133,20 +162,20 @@
         documentation.
       </p>
       <code>
-        &lt;!DOCTYPE html&gt;<br />
-        &lt;html&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;head&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;&lt;?php echo $title; ?&gt;&lt;/title&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/head&gt;<br />
+        &#60;!DOCTYPE html&#62;<br />
+        &#60;html&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;head&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;title&#62;&#60;?php echo $title; ?&#62;&#60;/title&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;/head&#62;<br />
         <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;body&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--{header}--&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="content"&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--{content}--&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;{footer}&nbsp;--&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/body&gt;<br />
-        &lt;/html&gt;
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;body&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!--{header}--&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;div class="content"&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!--{content}--&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/div&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!--&nbsp;{footer}&nbsp;--&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;/body&#62;<br />
+        &#60;/html&#62;
       </code>
       <p>
         As you can see, the syntax for referencing a section inside another is the
@@ -164,8 +193,8 @@
       </p>
       <code>
         <span>// Create the sections we are going to use.</span><br />
-        $this-&gt;template-&gt;create(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&gt; 'document',<br />
+        $this-&#62;template-&#62;create(array(<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; 'document',<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'content',<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br />
@@ -173,14 +202,14 @@
         <br />
         <span>// In most cases, just let the Template library link the sections together for you.</span><br />
         <span>// Autolinking is enabled by default. The following is just a reference.</span><br />
-        $this-&gt;template-&gt;autolink(true);<br />
+        $this-&#62;template-&#62;autolink(true);<br />
         <br />
         <span>// Sometimes you would want to manually specify the links between sections.</span><br />
-        $this-&gt;template-&gt;autolink(false);<br />
+        $this-&#62;template-&#62;autolink(false);<br />
         $links = array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&gt; array('header', 'content', 'footer'),<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; array('header', 'content', 'footer'),<br />
         );<br />
-        $this-&gt;template-&gt;link($links);
+        $this-&#62;template-&#62;link($links);
       </code>
       <p class="important">
         <strong>Note:</strong>
@@ -188,47 +217,51 @@
         a high priority.
       </p>
 
-      <h1>Groups</h1>
+
+
+      <h1 id="groups">Groups</h1>
       <p>
         Groups are a collection of sections; of which can be iterated over in the view.<br />
         The simplest way to create a group is by specifying a collection of sections via the
         <dfn>group()</dfn> method.
       </p>
       <code>
-        $this-&gt;template-&gt;create(array(<br />
+        $this-&#62;template-&#62;create(array(<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'view1',<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'view2',<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'view3',<br />
         ));<br />
         <br />
         <span>// Specify what you would like to call the group, and the sections it will contain.</span><br />
-        $this-&gt;template-&gt;group('group_name', array('view1', 'view2', 'view3'));
+        $this-&#62;template-&#62;group('group_name', array('view1', 'view2', 'view3'));
       </code>
       <p>
         Once you have created a group, you can keep adding sections to it via the
         <dfn>join()</dfn> method.
       </p>
       <code>
-        $this-&gt;template-&gt;create(array(<br />
+        $this-&#62;template-&#62;create(array(<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'view1',<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'view2',<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'view3',<br />
         ));<br />
-        $this-&gt;template-&gt;group('group_name', array('view1'));<br />
+        $this-&#62;template-&#62;group('group_name', array('view1'));<br />
         <br />
         <span>// Specify the name of the group you wish to add to, and a list of sections to be added.</span><br />
-        $this-&gt;template-&gt;join('group_name', array('view2', 'view3'));
+        $this-&#62;template-&#62;join('group_name', array('view2', 'view3'));
       </code>
+
       <h3>Syntax</h3>
       <p>
         The syntax in your views for groups is slightly different to referencing
         sections; bearing a slight resemblence to PHP's arrays.
       </p>
       <code>
-        &lt;!-- File: "views/content.php" --&gt;<br />
-        &lt;h3&gt;Featured&lt;/h3&gt;<br />
-        &lt;!--{group_name[]}--&gt;
+        &#60;!-- File: "views/content.php" --&#62;<br />
+        &#60;h3&#62;Featured&#60;/h3&#62;<br />
+        &#60;!--{group_name[]}--&#62;
       </code>
+
       <h3>Anonymous Groups</h3>
       <p>
         Anonymous groups are useful for using views to iterate over sets of data,
@@ -243,17 +276,17 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM `your_db`.`your_tbl`<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE `condition` = 'value'<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIMIT 5;";<br />
-        $results = $db-&gt;query($query);<br />
+        $results = $db-&#62;query($query);<br />
         <br />
         <span>// Create a group, consisting of multiple versions of a specified view from the data passed.</span><br />
-        $this-&gt;template-&gt;agroup('group_name', 'view_name', $results->fetch_all());<br />
+        $this-&#62;template-&#62;agroup('group_name', 'view_name', $results->fetch_all());<br />
         <br />
         <span>// For comparison, this is the same as the following.</span><br />
-        $this-&gt;template-&gt;group('group_name');<br />
-        while($row = $results-&gt;fetch_assoc()) {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;template-&gt;create('section_' . $row['id'], 'view_name');<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;template-&gt;section()->add($row);<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;template-&gt;join('group_name', $this-&gt;template-&gt;section());<br />
+        $this-&#62;template-&#62;group('group_name');<br />
+        while($row = $results-&#62;fetch_assoc()) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&#62;template-&#62;create('section_' . $row['id'], 'view_name');<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&#62;template-&#62;section()->add($row);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&#62;template-&#62;join('group_name', $this-&#62;template-&#62;section());<br />
         }
       </code>
       <p>
@@ -262,13 +295,14 @@
       <code>
         <span>// Grab your two sets of data.</span><br />
         $db = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);<br />
-        $males = $db-&gt;query("SELECT * FROM your_tbl WHERE `gender` = 'male' LIMIT 5;");<br />
-        $females = $db-&gt;query("SELECT * FROM your_tbl WHERE `gender` = 'female' LIMIT 5;");<br />
+        $males = $db-&#62;query("SELECT * FROM your_tbl WHERE `gender` = 'male' LIMIT 5;");<br />
+        $females = $db-&#62;query("SELECT * FROM your_tbl WHERE `gender` = 'female' LIMIT 5;");<br />
         <br />
         <span>// Create your anonymous group, and then add more anonymous sections which are associated with a different view.</span><br />
-        $this-&gt;template-&gt;agroup('group_name', 'profile_males', $males-&gt;fetch_all());<br />
-        $this-&gt;template-&gt;ajoin('group_name', 'profile_females', $females-&gt;fetch_all());
+        $this-&#62;template-&#62;agroup('group_name', 'profile_males', $males-&#62;fetch_all());<br />
+        $this-&#62;template-&#62;ajoin('group_name', 'profile_females', $females-&#62;fetch_all());
       </code>
+
       <h3>Mixing Sections and Groups</h3>
       <p>
         The syntax for referencing sections and groups in views can be mixed. Each has
@@ -276,14 +310,16 @@
       </p>
       <code>
         <span>Specifying a section tag rather than a group tag means that you are referencing a singular object, which gets translated:</span><br />
-        <span>From </span>&lt;!--{ref}--&gt;<span> to </span>&lt;!--{ref[1]}--&gt;<span>.</span><br />
+        <span>From </span>&#60;!--{ref}--&#62;<span> to </span>&#60;!--{ref[1]}--&#62;<span>.</span><br />
         <br />
         <span>Specifying a group count of zero in your view translates to unlimited.</span><br />
         <span>This means that not specifying a group count means the reference tag gets translated:</span><br />
-        <span>From </span>&lt;!--{ref[]}--&gt;<span> to </span>&lt;!--{ref[0]}--&gt;<span>.</span>
+        <span>From </span>&#60;!--{ref[]}--&#62;<span> to </span>&#60;!--{ref[0]}--&#62;<span>.</span>
       </code>
 
-      <h1>Other Features</h1>
+
+
+      <h1 id="features">Other Features</h1>
 
       <h3>Data Propagation</h3>
       <p>
@@ -300,78 +336,78 @@
         this page).
       </p>
       <code>
-        &lt;h2&gt;Page Content&lt;/h2&gt;<br />
-        &lt;p&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;?php<br />
+        &#60;h2&#62;Page Content&#60;/h2&#62;<br />
+        &#60;p&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;?php<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo isset($para)<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;? $para<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 'N/A';<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;?&gt;<br />
-        &lt;/p&gt;
+        &nbsp;&nbsp;&nbsp;&nbsp;?&#62;<br />
+        &#60;/p&#62;
       </code>
       <p>If we executed the following in our controller:</p>
       <code>
-        $this-&gt;template-&gt;create(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&gt; 'document',<br />
+        $this-&#62;template-&#62;create(array(<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; 'document',<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'content',<br />
         ));<br />
-        $this-&gt;template-&gt;autolink(true);<br />
+        $this-&#62;template-&#62;autolink(true);<br />
         <br />
         // Add some example data.<br />
-        $this-&gt;template-&gt;section('shell')-&gt;add(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'title' =&gt; 'Document Title',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'para' =&gt; 'This is my example paragraph, inherited from the parent section.',<br />
+        $this-&#62;template-&#62;section('shell')-&#62;add(array(<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'title' =&#62; 'Document Title',<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'para' =&#62; 'This is my example paragraph, inherited from the parent section.',<br />
         ));<br />
         <br />
         // Don't allow the data from parent sections to propagate. This is the default<br />
         // setting, so the following first statement is just a reference.<br />
-        $this-&gt;template-&gt;propagate(false);<br />
-        $this-&gt;template-&gt;load('shell');<br />
+        $this-&#62;template-&#62;propagate(false);<br />
+        $this-&#62;template-&#62;load('shell');<br />
         <br />
         echo "\n\n";<br />
         <br />
         // This time allow the data from parent sections to propagate down.<br />
-        $this-&gt;template-&gt;propagate(true);<br />
-        $this-&gt;template-&gt;load('shell');
+        $this-&#62;template-&#62;propagate(true);<br />
+        $this-&#62;template-&#62;load('shell');
       </code>
       <p>We should get the following HTML output:</p>
       <code>
-        &lt;!DOCTYPE html&gt;<br />
-        &lt;html&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;head&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Document Title&lt;/title&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/head&gt;<br />
+        &#60;!DOCTYPE html&#62;<br />
+        &#60;html&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;head&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;title&#62;Document Title&#60;/title&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;/head&#62;<br />
         <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;body&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--{header}--&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="content"&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Page Content&lt;/h2&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;body&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!--{header}--&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;div class="content"&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;h2&#62;Page Content&#60;/h2&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;p&#62;<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N/A<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- {footer} --&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/body&gt;<br />
-        &lt;/html&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/p&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/div&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!-- {footer} --&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;/body&#62;<br />
+        &#60;/html&#62;<br />
         <br />
         <br />
-        &lt;!DOCTYPE html&gt;<br />
-        &lt;html&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;head&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Document Title&lt;/title&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/head&gt;<br />
+        &#60;!DOCTYPE html&#62;<br />
+        &#60;html&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;head&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;title&#62;Document Title&#60;/title&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;/head&#62;<br />
         <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;body&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--{header}--&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="content"&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Page Content&lt;/h2&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;body&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!--{header}--&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;div class="content"&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;h2&#62;Page Content&#60;/h2&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;p&#62;<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is my example paragraph, inherited from the parent section.<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- {footer} --&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/body&gt;<br />
-        &lt;/html&gt;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/p&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/div&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!-- {footer} --&#62;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&#60;/body&#62;<br />
+        &#60;/html&#62;
       </code>
       <p class="important">
         <strong>Note:</strong>
@@ -409,7 +445,26 @@
         templates.
       </p>
 
-      <h1>Method Reference</h1>
+      <h3>Valid Labels</h3>
+      <p>
+        Many objects and pieces of data within this library have identifiers that are
+        strings. Therefore, as an added precaution, string identifiers in the library
+        have been restricted to adhering to the same format as a valid label in PHP
+        (function, class and variable names, etc.)<br />
+        This includes section and group names, and the variable names within the data
+        passed to sections (which goes without saying, you will be accessing them inside
+        the view with direct PHP variables).
+      </p>
+      <p>
+        For those interested, the <abbr title="Perl Compatible Regular Expression">PCRE</abbr>
+        for a valid label is as follows.
+      </p>
+      <code>/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/</code>
+
+
+
+      <h1 id="reference">Method Reference</h1>
+
 
       <h2>$this->template->set_dir(<var>'dir_name'</var>)</h2>
       <p>
@@ -437,6 +492,7 @@
         Returns <kbd>true</kbd> on success.
       </p>
 
+
       <h2>$this->template->set_prefix(<var>'prefix'</var>)</h2>
       <p>
         Like set_dir(), except you specify a string to be prepended onto the view filename.
@@ -452,6 +508,7 @@
         to this check, the prefix will be set and the method return <kbd>true</kbd>, if not,
         <kbd>false</kbd>.
       </p>
+
 
       <h2>$this->template->view_exists(<var>'view_name'</var>)</h2>
       <p>
@@ -475,6 +532,7 @@
         $this->template->view_exists('header')                     // bool(true);
       </code>
 
+
       <h2>$this->template->section_exists(<var>'section_name'</var>)</h2>
       <p>
         To check whether a section exists, funnily enough. Pass it a string containing
@@ -490,6 +548,7 @@
         }
       </code>
 
+
       <h2>$this-template->create(<samp>$sections</samp> | <var>'section_name'</var>, [<var>'view_name'</var>])</h2>
       <p>
         This is where the magic starts! This is a flexible function to create sections
@@ -499,23 +558,24 @@
         <span>// Don't forget that sub-directory and prefix apply here.</span><br />
         <br />
         <span>// Create a section called "document" from the view "views/document.php".</span><br />
-        $this-&gt;template-&gt;create('document');<br />
+        $this-&#62;template-&#62;create('document');<br />
         <br />
         <span>// Create a section called "document" from the view "views/myDocument.php".</span><br />
-        $this-&gt;template-&gt;create('document', 'myDocument');<br />
+        $this-&#62;template-&#62;create('document', 'myDocument');<br />
         <br />
         <span>// Create multiple sections in one call.</span><br />
         $sections = array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'document' =&gt; 'myDocument',<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'document' =&#62; 'myDocument',<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
         &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br />
         );<br />
-        $this-&gt;template-&gt;create($sections);
+        $this-&#62;template-&#62;create($sections);
       </code>
       <p>
         When you create a section, it automatically becomes the <strong>active section</strong>.
         If you passed an array, the last element in the array will become the active section.
       </p>
+
 
       <h2>$this->template->acreate(<samp>$sections</samp> | <var>'section_name'</var>, <var>'content'</var>)</h2>
       <p>
@@ -530,23 +590,140 @@
         string you passed, unaltered.
       </p>
       <code>
-        $this-&gt;template-&gt;acreate('content', '&lt;p&gt;This is my documents content!&lt;/p&gt;');<br />
+        $this-&#62;template-&#62;acreate('content', '&#60;p&#62;This is my documents content!&#60;/p&#62;');<br />
         <br />
         $sections = array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'content' =&gt; '&lt;p&gt;This is my content.&lt;/p&gt;',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'footer' =&gt; '&amp;copy; 2010.'<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'content' =&#62; '&#60;p&#62;This is my content.&#60;/p&#62;',<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'footer' =&#62; '&amp;copy; 2010.'<br />
         );<br />
         $this->template->acreate($sections);
       </code>
 
-      <h2>$this-&gt;template-&gt;group(<var>'group_name'</var>, <samp>$sections</samp>)</h2>
-      <h2>$this-&gt;template-&gt;agroup(<var>'section_name'</var>, <var>'view_name'</var>, [<samp>$data</samp>])</h2>
-      <h2>$this-&gt;template-&gt;join(<var>'group_name'</var>, <samp>$sections</samp>)</h2>
-      <h2>$this-&gt;template-&gt;ajoin(<var>'group_name'</var>, <var>'view_name'</var>, [<samp>$data</samp>])</h2>
-      <h2>$this-&gt;template-&gt;active(<var>'section_name'</var>)</h2>
-      <h2>$this-&gt;template-&gt;section([<var>'section_name'</var>])</h2>
-      <h2>$this-&gt;template-&gt;link(<samp>$links</samp>)</h2>
-      <h2>$this-&gt;template-&gt;propagate(<kbd>boolean</kbd>)</h2>
+
+      <h2>$this-&#62;template-&#62;group(<var>'group_name'</var>, <samp>$sections</samp>)</h2>
+      <p>
+        As explained in <a href="#groups">Groups</a>, this method groups multiple
+        sections that will be iterated over in a single section reference tag.
+      </p>
+      <p>
+        The first parameter takes a string as the group name, which must be in the same
+        format as a valid PHP label. It cannot be the name of an already existing section
+        or group.<br />
+        The second parameter is an array containing zero or more section names - or
+        objects - that you wish to include in the group. If any of these sections are
+        not valid, they are ignored.
+      </p>
+      <code>
+        $this-&#62;template-&#62;create(array(<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'view1',<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'view2',<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'view3',<br />
+        ));<br />
+        <br />
+        <span>// Specify what you would like to call the group, and the sections it will contain.</span><br />
+        $this-&#62;template-&#62;group('group_name', array('view1', 'view2', 'view3'));
+      </code>
+
+
+      <h2>$this-&#62;template-&#62;agroup(<var>'section_name'</var>, <var>'view_name'</var>, [<samp>$data</samp>])</h2>
+      
+
+
+      <h2>$this-&#62;template-&#62;join(<var>'group_name'</var>, <samp>$sections</samp>)</h2>
+      
+
+
+      <h2>$this-&#62;template-&#62;ajoin(<var>'group_name'</var>, <var>'view_name'</var>, [<samp>$data</samp>])</h2>
+      
+
+
+      <h2>$this-&#62;template-&#62;active(<var>'section_name'</var>)</h2>
+      <p>
+        Passing this method a section name will set that section as the
+        "<em>active</em>" section. Setting a section as active will do two
+        things, to act as shortcuts.
+      </p>
+      <ul>
+        <li>
+          Calling the <dfn>section()</dfn> method with no parameter assumes you
+          mean the active section.
+        </li>
+        <li>
+          Calling the <dfn>load()</dfn> method with no parameter assumes you
+          mean the active section.
+        </li>
+      </ul>
+      <code>
+        $this-&#62;template-&#62;create(array(<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; 'document',<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br />
+        ));<br />
+        $this-&#62;template-&#62;active('shell');<br />
+        $shell = $this-&#62;template-&#62;section();
+      </code>
+
+
+      <h2>$this-&#62;template-&#62;section([<var>'section_name'</var>])</h2>
+      <p>
+        Returns a section as an instance of the Template library's section class.
+        If the section does not exist, it returns <kbd>false</kbd>.<br />
+        The section object will have access to all the methods described in
+        "<a href="#sectionmethods" title="Jump to the Section Method Reference">Section Method Reference</a>".
+      </p>
+      <code>
+        <span>// Create the section, which will also be set as the active section.</span><br />
+        $this-&#62;template-&#62;create('shell', 'document');<br />
+        $section = $this-&#62;template-&#62;section();<br />
+        <br />
+        $section-&#62;add('some_variable', 'some_data');<br />
+        <br />
+        <span>// Because the section() method returns an object, you can chain it up like a gangsta.</span><br />
+        $this-&#62;template-&#62;section()-&#62;add('some_variable', 'some_data');
+      </code>
+
+
+      <h2>$this-&#62;template-&#62;link(<samp>$links</samp>)</h2>
+      <p class="important">
+        <strong>Note:</strong>
+        There is no need to use this method if the Autolinking feature is enabled.
+      </p>
+      <p>
+        This method manually creates a link for a section to be included inside another section.
+        When linking manually, a section's content will only replace the corresponding section
+        reference tag in the view if it has been linked using this method first. This allows
+        you to mix and match which tags in a view are operational for this template load.
+      </p>
+      <code>
+        $this-&#62;template-&#62;create(array(<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; 'document',<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'content',<br />
+        ));<br />
+        <span>// Create a group called "features" containing 3 sections from the "featured_box" view.</span><br />
+        $this-&#62;template-&#62;agroup('features', 'featured_box', array(null, null, null));<br />
+        <br />
+        <span>// Create the full HTML output.</span><br />
+        $this-&#62;template-&#62;load('shell');<br />
+        <br />
+        <span>// However, if you wanted to just show the content of the page, and not the header</span><br />
+        <span>// or footer (for a print-friendly version of the page, for example).</span><br />
+        $this-&#62;template-&#62;autolink(false);<br />
+        <span>// Only link the sections you want to be included in the final output.</span>
+        $this-&#62;template-&#62;link(array(<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; array('content'),<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'content' =&#62; array('features'),<br />
+        ));<br />
+        $this-&#62;template-&#62;load('shell');
+      </code>
+      <p class="important">
+        <strong>Note:</strong>
+        If you have section reference tags which have not been linked, they will remain in the final output.
+      </p>
+
+
+      <h2>$this-&#62;template-&#62;propagate(<kbd>boolean</kbd>)</h2>
       <p>
         This changes the setting for enabling or disabling the data propagation
         functionality. Pass a boolean with the value of <kbd>true</kbd> to enable or
@@ -554,7 +731,8 @@
       </p>
       <p>Data propagation is disabled by default.</p>
 
-      <h2>$this-&gt;template-&gt;autolink(<kbd>boolean</kbd>)</h2>
+
+      <h2>$this-&#62;template-&#62;autolink(<kbd>boolean</kbd>)</h2>
       <p>
         This method changes the setting for enabling or disabling the autolink
         functionality. Yep, you've heard this before, but pass <kbd>true</kbd> to
@@ -562,7 +740,8 @@
       </p>
       <p>Autolinking is enabled by default.</p>
 
-      <h2>$this-&gt;template-&gt;autoload(<var>'config'</var>)</h2>
+
+      <h2>$this-&#62;template-&#62;autoload(<var>'config'</var>)</h2>
       <p>
         The autoload method enables us to save some time by setting up parts of the
         template library from config. You may either pass the name of a config file
@@ -571,12 +750,12 @@
       </p>
       <code>
         <span>// Load the options from a config file.</span><br />
-        $loaded = $this-&gt;template-&gt;autoload('template');<br />
+        $loaded = $this-&#62;template-&#62;autoload('template');<br />
         <br />
         <span>// Or you can pass the array directly to the method if that fails.</span><br />
         if(!$loaded) {<br />
         &nbsp;&nbsp;&nbsp;&nbsp;$config = get_config('template');<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;template-&gt;autoload($config);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&#62;template-&#62;autoload($config);<br />
         }
       </code>
       <p class="important">
@@ -627,6 +806,7 @@
         passed). It does not return a value depending on the success of the autoload,
         if one ore more of the options fail, they will just be ignored.
       </p>
+
       <h3>set_dir</h3>
       <p>
         This takes exactly the same parameter as <dfn>set_dir()</dfn> - an individual
@@ -637,33 +817,39 @@
         This takes exactly the same parameter as <dfn>set_prefix()</dfn> - an
         individual string.
       </p>
+
       <h3>create</h3>
       <p>
         This takes <dfn>create()</dfn>'s single array argument.
       </p>
+
       <h3>group</h3>
       <p>
         This takes an array of <dfn>group()</dfn> parameters, where the array key is
         the group name, and the value is an array of sections.
       </p>
+
       <h3>add</h3>
       <p>
         Similar to the group option. This takes an array of the arrays you would pass
         to <dfn>add()</dfn>, where the array key is the section name.
       </p>
+
       <h3>autolink</h3>
       <p>
         Takes a boolean value of whether you want to autolink or not.<br />
         If you set this to <kbd>true</kbd>, then the link option will be ignored
         regardless.
       </p>
+
       <h3>link</h3>
       <p>
         This takes a single parameter, which is identical to the one you would pass to
         <dfn>link()</dfn> - an individual array.
       </p>
 
-      <h2>$this-&gt;template-&gt;load(<var>'section_name'</var>, <kbd>boolean</kbd>)</h2>
+
+      <h2>$this-&#62;template-&#62;load(<var>'section_name'</var>, <kbd>boolean</kbd>)</h2>
       <p>
         This method is usually the last one you will call from the Template library.
         It will load the section you specify, pulling all it's linked descendants, and
@@ -684,22 +870,26 @@
         rendered directly - they must be referenced from within a view.
       </p>
       <code>
-        $this-&gt;template-&gt;create('shell', 'document');<br />
+        $this-&#62;template-&#62;create('shell', 'document');<br />
         <br />
         <span>// Render all your sections and send to output buffer.</span><br />
         $this->template->load('shell');<br />
         <br />
         <span>// If you'd prefer the rendered output to return rather than be sent to</span><br />
         <span>// CodeIgniter's Output class, pass bool(true) as the second parameter.</span><br />
-        $output = $this-&gt;template-&gt;load('shell', true);<br />
+        $output = $this-&#62;template-&#62;load('shell', true);<br />
         <br />
         <span>// You can also pass a section object to load.</span><br />
-        $section = $this-&gt;template-&gt;section('shell');<br />
-        $this-&gt;template-&gt;load($section);
+        $section = $this-&#62;template-&#62;section('shell');<br />
+        $this-&#62;template-&#62;load($section);
       </code>
 
-      <h1>Section Method Reference</h1>
-      <h2>$this-&gt;template-&gt;section()-&gt;name()</h2>
+
+
+      <h1 id="sectionmethods">Section Method Reference</h1>
+
+
+      <h2>$this-&#62;template-&#62;section()-&#62;name()</h2>
       <p>
         Returns the name of the section. Whilst this won't really be used much, as
         most of the library uses string to identify sections, there may be times where
@@ -714,6 +904,7 @@
       </code>
       <p>This method takes no parameters.</p>
 
+
       <h2>$this->template->section()->view()</h2>
       <p>
         Returns the name of the view that the section is using. This will the view you
@@ -726,7 +917,8 @@
       </p>
       <p>This method takes no parameters.</p>
 
-      <h2>$this-&gt;template-&gt;section()-&gt;data([<samp>$data</samp>])</h2>
+
+      <h2>$this-&#62;template-&#62;section()-&#62;data([<samp>$data</samp>])</h2>
       <p>
         This method, with no parameters passed, will return all the data that has been
         added to the section so far. If an array is passed as the first parameter, it
@@ -744,7 +936,8 @@
         $this->template->section()->data($data);
       </code>
 
-      <h2>$this-&gt;template-&gt;section()-&gt;content()</h2>
+
+      <h2>$this-&#62;template-&#62;section()-&#62;content()</h2>
       <p>
         Return the content of the section. If this is an anonymous section, then it
         will simply return the string you supplied it when you created it.<br />
@@ -774,7 +967,8 @@
         This method takes no <del>prisoners</del> <ins>parameters</ins>.
       </p>
 
-      <h2>$this-&gt;template-&gt;section()-&gt;add(<samp>$data</samp> | <var>'name'</var>, <var>'value'</var>)</h2>
+
+      <h2>$this-&#62;template-&#62;section()-&#62;add(<samp>$data</samp> | <var>'name'</var>, <var>'value'</var>)</h2>
       <p>
         Adding data to a section is the same as passing data to a view. The data in
         the section is stored in the object - accessible via the <dfn>data()</dfn>
@@ -783,19 +977,21 @@
         stock-pile your data, ready to be used within the sections designated view.
       </p>
       <code>
-        $this-&gt;template-&gt;section()-&gt;add('variable_name', 'variable_value');<br />
-        $this-&gt;template-&gt;section()-&gt;add('another_variable', 123);<br />
+        $this-&#62;template-&#62;section()-&#62;add('variable_name', 'variable_value');<br />
+        $this-&#62;template-&#62;section()-&#62;add('another_variable', 123);<br />
         <br />
         <span>// Passing an array as the only parameter allows you to pass multiple sets of</span><br />
         <span>// data at once, just like when you load a view.</span><br />
         $data = array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'var1' =&gt; 'value1',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'var2' =&gt; 'value2',<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'var1' =&#62; 'value1',<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;'var2' =&#62; 'value2',<br />
         );<br />
-        $this-&gt;template-&gt;section()-&gt;add($data);
+        $this-&#62;template-&#62;section()-&#62;add($data);
       </code>
 
-      <h1>Magic Methods</h1>
+
+
+      <h1 id="magicmethods">Magic Methods</h1>
       <p>
         A couple of PHP's magic methods are implemented in section objects as
         shortcuts.
@@ -806,16 +1002,16 @@
         of the <dfn>load()</dfn> method, had it been called on that section.
       </p>
       <code>
-        $shell = $this-&gt;template-&gt;section('shell');<br />
+        $shell = $this-&#62;template-&#62;section('shell');<br />
         <br />
         <span>// The following two statements are equivalent:</span><br />
-        echo $this-&gt;template-&gt;load('shell', true);<br />
+        echo $this-&#62;template-&#62;load('shell', true);<br />
         echo $shell;<br />
         <br />
         <span>// Notice that we echo'd out what was returned from the load() method. The</span><br />
         <span>// following two statements are also equivalent:</span><br />
-        $this-&gt;template-&gt;load('shell');<br />
-        $this-&gt;output-&gt;append_output($shell);
+        $this-&#62;template-&#62;load('shell');<br />
+        $this-&#62;output-&#62;append_output($shell);
       </code>
       <p class="important">
         <strong>Note:</strong>
@@ -824,6 +1020,7 @@
         <var>{elapsed_time}</var> or <var>{memory_usage}</var>, these will not have
         been parsed at this time.
       </p>
+
       <h3>Treating a section object as a function</h3>
       <p>
         Treating a section object as a function is a shortcut to the sections
@@ -831,7 +1028,7 @@
         accepts.
       </p>
       <code>
-        $shell = $this-&gt;template-&gt;section('shell');<br />
+        $shell = $this-&#62;template-&#62;section('shell');<br />
         $shell('title', 'Your Document Title');
       </code>
       <p class="important">
@@ -839,7 +1036,9 @@
         This feature is only available to PHP versions 5.3+
       </p>
 
-      <h1>Accreditations</h1>
+
+
+      <h1 id="accreditations">Accreditations</h1>
       <p>
         Template library, by <a href="http://github.com/mynameiszanders" title="GitHub Profile">Alexander Baldwin</a>;
         written for the <a href="http://codeigniter.com" title="CodeIgniter Homepage">CodeIgniter</a> PHP Application
