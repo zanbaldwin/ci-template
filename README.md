@@ -11,7 +11,8 @@ linked with automatic embedding to create a fully functioning, yet modular,
 page.
 
 Here is a quick example of what you can do with the library from within your
-[CodeIgniter] [3] controller.
+[CodeIgniter] [3] controller; please refer to the [online copy of the user
+guide] [4] for further examples and full documentation.
 
     // Detected end-user is using a mobile browser.
     $this->template->set_prefix('mobile_');
@@ -51,9 +52,6 @@ Here is a quick example of what you can do with the library from within your
     
     // Render template and append to output.
     $this->template->load('shell');
-
-To read more about this library, please refer to the
-[online copy of the user guide] [4].
 
 Enjoy!
 
