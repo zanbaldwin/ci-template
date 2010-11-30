@@ -286,6 +286,14 @@
      * @return string|false
      */
     protected function section_name($section) {
+      // If a boolean of true was passed, attempt to fetch the active section.
+      if($section === true) {
+        // Make sure it is a string first, else we may end up in a one of those
+        // nightmares called an infinate loop.
+        $section = is_string($this->active)
+                 ? $this->section_exists($this->active)
+                 : false;
+      }
       // If the section is already passed as a string, return it straight away.
       if(is_string($section)) {
         return $section;
@@ -826,7 +834,7 @@
      * @param boolean       $append
      * @return boolean
      */
-    public function load($section, $return = false) {
+    public function load($section = true, $return = false) {
       $section = $this->section_name($section);
       // You are required to pass a valid section, groups are not allowed.
       if(!$this->section_exists($section)
