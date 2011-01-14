@@ -604,6 +604,16 @@
      * @return boolean
      */
     public function agroup($name, $view, $data = array()) {
+      // If $data is a positive integer, make $data an array container that
+      // number of empty arrays.
+      if(is_int($data) && $data > 0) {
+        $n = $data;
+        $data = array();
+        for($i = 0; $i < $n; $i++) {
+          $data[] = array();
+        }
+      }
+      // Variable data checks.
       if($this->section_exists($name) || !$this->is_varname($name) || !is_array($data)) {
         return false;
       }
