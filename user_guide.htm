@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
   <head>
     <title>Template Library: CodeIgniter User Guide</title>
     <meta charset="utf-8" />
@@ -10,20 +10,21 @@
       http://codeigniter.com/user_guide/license.html
     -->
     <meta name="author" content="Alexander Baldwin" />
-    <meta name="description" content="A CodeIgniter Template library, hosted on GitHub, to organise multiple views into complex, nested sections each with seperate data, controlling data propagation to child sections. Sections can be grouped, iterated, linked  with automatic embedding to create a fully functioning, yet modular, page." />
+    <meta name="description" content="A CodeIgniter Template library, hosted on GitHub, to organise multiple views into complex, nested sections each with seperate data, controlling data propagation to child sections. Sections can be grouped, iterated, and linked with automatic embedding to create a fully functioning, yet modular, page." />
     <meta name="keywords" content="template, library, class, codeigniter, framework, section, theme, reference, data, propagation, autolinking, application, git, github" />
     <!--
-      The online version of the User Guide uses LeSS instead of CSS, but
-      unfortunately AJAX requests cannot be cross-domain, so we are going to
-      fall back to plain CSS for the downloadable version of the User Guide.
+      The semantic structure of this document has been laid out in a way that shouldn't
+      need a stylesheet. Therefore, the decision has been made to switch from regular
+      CSS to LeSS, to support one of my favourite open-source projects; LeSS.js
+      http://github.com/cloudhead/less.js
     -->
-    <link href="http://mynameiszanders.github.com/ci-template/userguide.css" rel="stylesheet" media="all" title="User Guide Stylesheet" type="text/css" />
+    <link href="./css/userguide.css" rel="stylesheet" media="all" title="User Guide Stylesheet" type="text/css" />
   </head>
 
   <body>
 
     <a id="ribbon" href="http://github.com/mynameiszanders/ci-template/" title="Fork this library on GitHub">
-      <img src="./ribbon.png" alt="Fork me on GitHub" title="Fork me on GitHub" height="149" width="149" />
+      <img src="http://mynameiszanders.github.com/ci-template/ribbon.png" alt="Fork me on GitHub" title="Fork me on GitHub" height="149" width="149" />
     </a>
 
     <table style="width:100%;padding:0;border:0;border-spacing:0;">
@@ -55,19 +56,19 @@
         linked with automatic embedding to create a fully functioning, yet modular,
         page.
       </p>
-      <code>
+      <code class="brush: php;">
         $this-&#62;template-&#62;create(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; 'document',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'content',<br >
-        &nbsp;&nbsp;&nbsp;&nbsp;'featured' =&#62; 'featured_' . strtolower(date('D')),<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br >
+        &#160;&#160;&#160;&#160;'shell' =&#62; 'document',<br />
+        &#160;&#160;&#160;&#160;'header',<br />
+        &#160;&#160;&#160;&#160;'content',<br >
+        &#160;&#160;&#160;&#160;'featured' =&#62; 'featured_' . strtolower(date('D')),<br />
+        &#160;&#160;&#160;&#160;'footer',<br >
         ));<br >
         <br />
         $this-&#62;template-&#62;autolink(false);<br />
         $this-&#62;template-&#62;link(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; array('header', 'content', 'footer'),<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'content' =&#62; array('featured'),<br />
+        &#160;&#160;&#160;&#160;'shell' =&#62; array('header', 'content', 'footer'),<br />
+        &#160;&#160;&#160;&#160;'content' =&#62; array('featured'),<br />
         ));<br />
         <br />
         $this-&#62;template-&#62;section('shell')-&#62;add('title', 'Template Library');<br />
@@ -88,7 +89,7 @@
       <p>
         This project can be cloned from the GitHub repository via the command
       </p>
-      <code>
+      <code class="brush: bash;">
         $ git clone git://github.com/mynameiszanders/ci-template.git
       </code>
       <p>
@@ -120,7 +121,7 @@
         CodeIgniter installation, with the typical directory structure. You may
         need to ammend the directory paths as appropriate.
       </p>
-      <code>
+      <code class="brush: bash;">
         $ git submodule add http://github.com/mynameiszanders/ci-template.git system/application/libraries/template<br />
         $ cd system/application/libraries/template<br />
         $ git checkout submodule
@@ -145,14 +146,14 @@
         Like most other classes in CodeIgniter, the Template library is initialized
         in your controller using the <dfn>$this->load->library()</dfn> function:
       </p>
-      <code>$this->load->library('template');</code>
+      <code class="brush: php;">$this->load->library('template');</code>
       <p>
         Once loaded, the Template library object will be available using: <dfn>$this->template</dfn>
       </p>
 
 
 
-      <h1 id="syntax">Template Syntax</h1>
+      <h1 id="syntax">Syntax</h1>
       <p>
         The syntax for the Template library is relatively simple - it's just a HTML
         comment! This is to ensure that if something should go wrong, for example, you
@@ -161,20 +162,20 @@
         called "document", which will be referenced throughout this template
         documentation.
       </p>
-      <code>
+      <code class="brush: xml;">
         &#60;!DOCTYPE html&#62;<br />
         &#60;html&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;head&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;title&#62;&#60;?php echo $title; ?&#62;&#60;/title&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;/head&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;head&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;title&#62;&#60;?php echo $title; ?&#62;&#60;/title&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;/head&#62;<br />
         <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;body&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!--{header}--&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;div class="content"&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!--{content}--&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/div&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!--&nbsp;{footer}&nbsp;--&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;/body&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;body&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;!--{header}--&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;div class="content"&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;!--{content}--&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;/div&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;!--&#160;{footer}&#160;--&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;/body&#62;<br />
         &#60;/html&#62;
       </code>
       <p>
@@ -191,13 +192,13 @@
         you must then link those sections together using either the <dfn>link()</dfn>
         method or enabling autolinking.
       </p>
-      <code>
+      <code class="brush: php;">
         <span>// Create the sections we are going to use.</span><br />
         $this-&#62;template-&#62;create(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; 'document',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'content',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br />
+        &#160;&#160;&#160;&#160;'shell' =&#62; 'document',<br />
+        &#160;&#160;&#160;&#160;'header',<br />
+        &#160;&#160;&#160;&#160;'content',<br />
+        &#160;&#160;&#160;&#160;'footer',<br />
         ));<br />
         <br />
         <span>// In most cases, just let the Template library link the sections together for you.</span><br />
@@ -207,7 +208,7 @@
         <span>// Sometimes you would want to manually specify the links between sections.</span><br />
         $this-&#62;template-&#62;autolink(false);<br />
         $links = array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; array('header', 'content', 'footer'),<br />
+        &#160;&#160;&#160;&#160;'shell' =&#62; array('header', 'content', 'footer'),<br />
         );<br />
         $this-&#62;template-&#62;link($links);
       </code>
@@ -225,11 +226,11 @@
         The simplest way to create a group is by specifying a collection of sections via the
         <dfn>group()</dfn> method.
       </p>
-      <code>
+      <code class="brush: php;">
         $this-&#62;template-&#62;create(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'view1',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'view2',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'view3',<br />
+        &#160;&#160;&#160;&#160;'view1',<br />
+        &#160;&#160;&#160;&#160;'view2',<br />
+        &#160;&#160;&#160;&#160;'view3',<br />
         ));<br />
         <br />
         <span>// Specify what you would like to call the group, and the sections it will contain.</span><br />
@@ -239,11 +240,11 @@
         Once you have created a group, you can keep adding sections to it via the
         <dfn>join()</dfn> method.
       </p>
-      <code>
+      <code class="brush: php;">
         $this-&#62;template-&#62;create(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'view1',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'view2',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'view3',<br />
+        &#160;&#160;&#160;&#160;'view1',<br />
+        &#160;&#160;&#160;&#160;'view2',<br />
+        &#160;&#160;&#160;&#160;'view3',<br />
         ));<br />
         $this-&#62;template-&#62;group('group_name', array('view1'));<br />
         <br />
@@ -256,7 +257,7 @@
         The syntax in your views for groups is slightly different to referencing
         sections; bearing a slight resemblence to PHP's arrays.
       </p>
-      <code>
+      <code class="brush: xml;">
         &#60;!-- File: "views/content.php" --&#62;<br />
         &#60;h3&#62;Featured&#60;/h3&#62;<br />
         &#60;!--{group_name[]}--&#62;
@@ -269,13 +270,13 @@
         array of data sets is a shortcut for creating a section, populating it with
         a set of data, and adding it to a group multiple times.
       </p>
-      <code>
+      <code class="brush: php;">
         <span>// Grab some data to create lots of views from.</span><br />
         $db = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);<br />
         $query = "SELECT `id`, `and`, `various`, `pieces`, `of, `data`<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM `your_db`.`your_tbl`<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE `condition` = 'value'<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIMIT 5;";<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;FROM `your_db`.`your_tbl`<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;WHERE `condition` = 'value'<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;LIMIT 5;";<br />
         $results = $db-&#62;query($query);<br />
         <br />
         <span>// Create a group, consisting of multiple versions of a specified view from the data passed.</span><br />
@@ -284,15 +285,15 @@
         <span>// For comparison, this is the same as the following.</span><br />
         $this-&#62;template-&#62;group('group_name');<br />
         while($row = $results-&#62;fetch_assoc()) {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&#62;template-&#62;create('section_' . $row['id'], 'view_name');<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&#62;template-&#62;section()->add($row);<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&#62;template-&#62;join('group_name', $this-&#62;template-&#62;section());<br />
+        &#160;&#160;&#160;&#160;$this-&#62;template-&#62;create('section_' . $row['id'], 'view_name');<br />
+        &#160;&#160;&#160;&#160;$this-&#62;template-&#62;section()->add($row);<br />
+        &#160;&#160;&#160;&#160;$this-&#62;template-&#62;join('group_name', $this-&#62;template-&#62;section());<br />
         }
       </code>
       <p>
         If you don't want all the sections in the group to have the same view, you can use the <dfn>ajoin()</dfn> method.
       </p>
-      <code>
+      <code class="brush: php;">
         <span>// Grab your two sets of data.</span><br />
         $db = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);<br />
         $males = $db-&#62;query("SELECT * FROM your_tbl WHERE `gender` = 'male' LIMIT 5;");<br />
@@ -308,7 +309,7 @@
         The syntax for referencing sections and groups in views can be mixed. Each has
         an equivalent which you can use.
       </p>
-      <code>
+      <code class="brush: xml;">
         <span>Specifying a section tag rather than a group tag means that you are referencing a singular object, which gets translated:</span><br />
         <span>From </span>&#60;!--{ref}--&#62;<span> to </span>&#60;!--{ref[1]}--&#62;<span>.</span><br />
         <br />
@@ -335,28 +336,28 @@
         "views/content.php", and the <em>document</em> view (defined at the top of
         this page).
       </p>
-      <code>
+      <code class="brush: php;">
         &#60;h2&#62;Page Content&#60;/h2&#62;<br />
         &#60;p&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;?php<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo isset($para)<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;? $para<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 'N/A';<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;?&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;?php<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;echo isset($para)<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;? $para<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;: 'N/A';<br />
+        &#160;&#160;&#160;&#160;?&#62;<br />
         &#60;/p&#62;
       </code>
       <p>If we executed the following in our controller:</p>
-      <code>
+      <code class="brush: php;">
         $this-&#62;template-&#62;create(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; 'document',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'content',<br />
+        &#160;&#160;&#160;&#160;'shell' =&#62; 'document',<br />
+        &#160;&#160;&#160;&#160;'content',<br />
         ));<br />
         $this-&#62;template-&#62;autolink(true);<br />
         <br />
         // Add some example data.<br />
         $this-&#62;template-&#62;section('shell')-&#62;add(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'title' =&#62; 'Document Title',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'para' =&#62; 'This is my example paragraph, inherited from the parent section.',<br />
+        &#160;&#160;&#160;&#160;'title' =&#62; 'Document Title',<br />
+        &#160;&#160;&#160;&#160;'para' =&#62; 'This is my example paragraph, inherited from the parent section.',<br />
         ));<br />
         <br />
         // Don't allow the data from parent sections to propagate. This is the default<br />
@@ -371,42 +372,42 @@
         $this-&#62;template-&#62;load('shell');
       </code>
       <p>We should get the following HTML output:</p>
-      <code>
+      <code class="brush: xml;">
         &#60;!DOCTYPE html&#62;<br />
         &#60;html&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;head&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;title&#62;Document Title&#60;/title&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;/head&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;head&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;title&#62;Document Title&#60;/title&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;/head&#62;<br />
         <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;body&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!--{header}--&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;div class="content"&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;h2&#62;Page Content&#60;/h2&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;p&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N/A<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/p&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/div&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!-- {footer} --&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;/body&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;body&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;!--{header}--&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;div class="content"&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;h2&#62;Page Content&#60;/h2&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;p&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;N/A<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;/p&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;/div&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;!-- {footer} --&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;/body&#62;<br />
         &#60;/html&#62;<br />
         <br />
         <br />
         &#60;!DOCTYPE html&#62;<br />
         &#60;html&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;head&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;title&#62;Document Title&#60;/title&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;/head&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;head&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;title&#62;Document Title&#60;/title&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;/head&#62;<br />
         <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;body&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!--{header}--&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;div class="content"&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;h2&#62;Page Content&#60;/h2&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;p&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is my example paragraph, inherited from the parent section.<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/p&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;/div&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;!-- {footer} --&#62;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&#60;/body&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;body&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;!--{header}--&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;div class="content"&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;h2&#62;Page Content&#60;/h2&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;p&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;This is my example paragraph, inherited from the parent section.<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;/p&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;/div&#62;<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#60;!-- {footer} --&#62;<br />
+        &#160;&#160;&#160;&#160;&#60;/body&#62;<br />
         &#60;/html&#62;
       </code>
       <p class="important">
@@ -416,6 +417,17 @@
       </p>
 
       <h3>Autolinking</h3>
+      <p>
+        You may set the library to automatically link sections together for you on
+        loading a section, thus removing the need to call the <dfn>load()</dfn> method
+        to manually specify which sections to link. This is the most usual case and
+        is enabled by default.
+      </p>
+      <p>
+        You may wish to disable this, and perform manual linking, in cases where you
+        have various psuedo reference tags in your views but do not want them to be
+        linked for that particular page.
+      </p>
 
       <h3>Themes</h3>
       <p>
@@ -459,7 +471,7 @@
         For those interested, the <abbr title="Perl Compatible Regular Expression">PCRE</abbr>
         for a valid label is as follows.
       </p>
-      <code>/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/</code>
+      <code class="brush: plain;">/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/</code>
 
 
 
@@ -467,6 +479,17 @@
 
 
       <h2>$this->template->set_dir(<var>'dir_name'</var>)</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$dir_name</dt>
+            <dd>string</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>boolean</dd>
+      </dl>
       <p>
         This method accepts a directory name as its only input.
         This is to set a sub-directory of the views directory to be used as the
@@ -474,7 +497,7 @@
         different themes.
         Example:
       </p>
-      <code>
+      <code class="brush: php;">
         <span>// The section will have the view "views/document.php".</span><br />
         $this->template->create('document');<br />
         <br />
@@ -494,10 +517,21 @@
 
 
       <h2>$this->template->set_prefix(<var>'prefix'</var>)</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$prefix</dt>
+            <dd>string</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>boolean</dd>
+      </dl>
       <p>
         Like set_dir(), except you specify a string to be prepended onto the view filename.
       </p>
-      <code>
+      <code class="brush: php;">
         <span>// The section will have the view "views/prefix_document.php".</span><br />
         $this->template->set_prefix('prefix_');<br />
         $this->template->create('document');
@@ -511,13 +545,24 @@
 
 
       <h2>$this->template->view_exists(<var>'view_name'</var>)</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$view_name</dt>
+            <dd>string</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>boolean</dd>
+      </dl>
       <p>
         Does what it say's on the tin, really. Pass it a view name, and it will return
         a boolean value depending on whether the view exists or not. This function will
         also depend on whether you have used <dfn>set_prefix()</dfn> or <dfn>set_dir()</dfn>
         previously.
       </p>
-      <code>
+      <code class="brush: php;">
         <span>// Imagine, if you will, you have the following in your views folder:</span><br />
         <span>// document.php</span><br />
         <span>// myTheme / prefix_header.php</span><br />
@@ -534,27 +579,58 @@
 
 
       <h2>$this->template->section_exists(<var>'section_name'</var>)</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$section_name</dt>
+            <dd>string</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>boolean</dd>
+      </dl>
       <p>
         To check whether a section exists, funnily enough. Pass it a string containing
         what you named your section, and it will return a boolean value depending on
         whether it exists or not.
       </p>
-      <code>
+      <code class="brush: php;">
         $this->template->create('document');<br />
         <br />
         <span>// Did we create that section? I can't remember now.</span><br />
         if($this->template->section_exists('document')) {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this->template->section('document')->add('data', 'some_data');<br />
+        &#160;&#160;&#160;&#160;$this->template->section('document')->add('data', 'some_data');<br />
         }
       </code>
 
 
-      <h2>$this-template->create(<samp>$sections</samp> | <var>'section_name'</var>, [<var>'view_name'</var>])</h2>
+      <h2>$this-template->create(<samp>$sections</samp> || <var>'section_name'</var>, [<var>'view_name'</var>])</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$sections</dt>
+            <dd>object | array(int|string =&#62; string, ...)</dd>
+          </dl>
+        </dd>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$section_name</dt>
+            <dd>string</dd>
+            <dt>$view_name</dt>
+            <dd>string</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>void</dd>
+      </dl>
       <p>
         This is where the magic starts! This is a flexible function to create sections
         from views.
       </p>
-      <code>
+      <code class="brush: php;">
         <span>// Don't forget that sub-directory and prefix apply here.</span><br />
         <br />
         <span>// Create a section called "document" from the view "views/document.php".</span><br />
@@ -565,9 +641,9 @@
         <br />
         <span>// Create multiple sections in one call.</span><br />
         $sections = array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'document' =&#62; 'myDocument',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br />
+        &#160;&#160;&#160;&#160;'document' =&#62; 'myDocument',<br />
+        &#160;&#160;&#160;&#160;'header',<br />
+        &#160;&#160;&#160;&#160;'footer',<br />
         );<br />
         $this-&#62;template-&#62;create($sections);
       </code>
@@ -578,6 +654,30 @@
 
 
       <h2>$this->template->acreate(<samp>$sections</samp> | <var>'section_name'</var>, <var>'content'</var>)</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$sections</dt>
+            <dd>object | array(int|string =&#62; string, ...)</dd>
+            <dt>$content</dt>
+            <dd>string</dd>
+          </dl>
+        </dd>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$section_name</dt>
+            <dd>string</dd>
+            <dt>$content</dt>
+            <dd>string</dd>
+          </dl>
+        </dd>
+      </dl>
+      <dl>
+        <dt>Returns</dt>
+        <dd>void</dd>
+      </dl>
       <p>
         Create an <strong>anonymous section</strong>. An anonymous section is where
         you pass the content directly into the section, rather than loading it from a
@@ -589,18 +689,31 @@
         <dfn>data()</dfn> method, the output/content of an anonymous section will always be the
         string you passed, unaltered.
       </p>
-      <code>
+      <code class="brush: php;">
         $this-&#62;template-&#62;acreate('content', '&#60;p&#62;This is my documents content!&#60;/p&#62;');<br />
         <br />
         $sections = array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'content' =&#62; '&#60;p&#62;This is my content.&#60;/p&#62;',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'footer' =&#62; '&amp;copy; 2010.'<br />
+        &#160;&#160;&#160;&#160;'content' =&#62; '&#60;p&#62;This is my content.&#60;/p&#62;',<br />
+        &#160;&#160;&#160;&#160;'footer' =&#62; '&amp;copy; 2010.'<br />
         );<br />
         $this->template->acreate($sections);
       </code>
 
 
       <h2>$this-&#62;template-&#62;group(<var>'group_name'</var>, <samp>$sections</samp>)</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$group_name</dt>
+            <dd>string</dd>
+            <dt>$sections</dt>
+            <dd>array(string, ...)</dd>
+          </dl>
+        </dd>
+        <dt>Return</dt>
+        <dd>boolean</dd>
+      </dl>
       <p>
         As explained in <a href="#groups">Groups</a>, this method groups multiple
         sections that will be iterated over in a single section reference tag.
@@ -613,11 +726,11 @@
         objects - that you wish to include in the group. If any of these sections are
         not valid, they are ignored.
       </p>
-      <code>
+      <code class="brush: php;">
         $this-&#62;template-&#62;create(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'view1',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'view2',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'view3',<br />
+        &#160;&#160;&#160;&#160;'view1',<br />
+        &#160;&#160;&#160;&#160;'view2',<br />
+        &#160;&#160;&#160;&#160;'view3',<br />
         ));<br />
         <br />
         <span>// Specify what you would like to call the group, and the sections it will contain.</span><br />
@@ -625,19 +738,139 @@
       </code>
 
 
-      <h2>$this-&#62;template-&#62;agroup(<var>'section_name'</var>, <var>'view_name'</var>, [<samp>$data</samp>])</h2>
-      
+      <h2>$this-&#62;template-&#62;agroup(<var>'group_name'</var>, <var>'view_name'</var>, [<samp>$data</samp>])</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$group_name</dt>
+            <dd>string</dd>
+            <dt>$view_name</dt>
+            <dd>string</dd>
+            <dt>$data</dt>
+            <dd>int | array(array(string =&#62; mixed, ...), ...)</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>boolean</dd>
+      </dl>
+      <p>
+        This will create an anonymous group from a set, or sets, of data. Instead of
+        creating a group by specifying known sections, you pass a view and set(s) of
+        section data. This method will then interate through the data (which may consist
+        of an empty array if you do not wish the section to have any data), creating
+        sections on-the-fly and adding them to the new group.
+      </p>
+      <p>
+        The first parameter is the obvious group name to be created. The second, the
+        view to apply to all the anonymous sections.<br />
+        Lastly, the third parater can either be an array of arrays, or a positive integer.
+        If an array is passed, it must contain an array of data for each section to be
+        created in the group - if an integer is passed, it simulates an array containing
+        that many empty arrays (eg, create this many sections with no data).
+      </p>
+      <p>If the group name already exists as a group or section name, or the set of data is not an array or positive integer, the method will return false.</p>
+      <code class="brush: php;">
+        $this-&#62;template-&#62;agroup(<br />
+        &#160;&#160;&#160;&#160;'group_anon',<br />
+        &#160;&#160;&#160;&#160;'view1',<br />
+        &#160;&#160;&#160;&#160;array(<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;array('Section Title One', 'more data', $some_var, true),<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;array('Section Title Two', 'more data', $some_var, false),<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;array('Section Title Three', 'more data', $some_var, true),<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;array('Section Title Four', 'more data', $some_var, false),<br />
+        &#160;&#160;&#160;&#160;)<br />
+        );<br />
+        <br />
+        $this-&#62;template-&#62;agroup('group_anon', 'view1', 5);
+      </code>
 
 
       <h2>$this-&#62;template-&#62;join(<var>'group_name'</var>, <samp>$sections</samp>)</h2>
-      
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$group_name</dt>
+            <dd>string</dd>
+            <dt>$sections</dt>
+            <dd>array(string, ...)</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>boolean</dd>
+      </dl>
+      <p>
+        This method simply adds sections to a group that already exists with sections
+        associated with it prior to this method being called. Provide the name of
+        the group, and an array of the sections you wish to add to it, and... Wait,
+        that's all there is to it!
+      </p>
+      <code class="brush: php;">
+        $this-&#62;template-&#62;create(array(<br />
+        &#160;&#160;&#160;&#160;'view1',<br />
+        &#160;&#160;&#160;&#160;'view2',<br />
+        &#160;&#160;&#160;&#160;'view3',<br />
+        ));<br />
+        $this-&#62;template-&#62;group('group_name', array('view1', 'view2'));<br />
+        <br />
+        $this-&#62;template-&#62;join('group_name', array('view3'));
+      </code>
 
 
       <h2>$this-&#62;template-&#62;ajoin(<var>'group_name'</var>, <var>'view_name'</var>, [<samp>$data</samp>])</h2>
-      
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$group_name</dt>
+            <dd>string</dd>
+            <dt>$view_name</dt>
+            <dd>string</dd>
+            <dt>$data</dt>
+            <dd>int | array(array(string =&#62; mixed, ...), ...)</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>boolean</dd>
+      </dl>
+      <p>
+        This method provides exactly the same functionality as the <dfn>agroup()</dfn>
+        method, except that it is used on groups that already exist and have sections
+        associated with them prior to this method being called.
+      </p>
+      <code class="brush: php;">
+        $this-&#62;template-&#62;create(array(<br />
+        &#160;&#160;&#160;&#160;'view1',<br />
+        &#160;&#160;&#160;&#160;'view2',<br />
+        &#160;&#160;&#160;&#160;'view3',<br />
+        ));<br />
+        $this-&#62;template-&#62;group('group_name', array('view1', 'view2', 'view3'));<br />
+        <br />
+        $this-&#62;template-&#62;ajoin(<br />
+        &#160;&#160;&#160;&#160;'group_name',<br />
+        &#160;&#160;&#160;&#160;'view4',<br />
+        &#160;&#160;&#160;&#160;array(<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;array('title' => 'some title'),<br />
+        &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;array('title' => 'another title'),<br />
+        &#160;&#160;&#160;&#160;)<br />
+        );<br />
+        $this-&#62;template-&#62;ajoin('group_name', 'view_requiring_no_data', 4);
+      </code>
 
 
       <h2>$this-&#62;template-&#62;active(<var>'section_name'</var>)</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$section_name</dt>
+            <dd>string | &#60;Template_Section&#62; object</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>boolean</dd>
+      </dl>
       <p>
         Passing this method a section name will set that section as the
         "<em>active</em>" section. Setting a section as active will do two
@@ -653,11 +886,11 @@
           mean the active section.
         </li>
       </ul>
-      <code>
+      <code class="brush: php;">
         $this-&#62;template-&#62;create(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; 'document',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br />
+        &#160;&#160;&#160;&#160;'shell' =&#62; 'document',<br />
+        &#160;&#160;&#160;&#160;'header',<br />
+        &#160;&#160;&#160;&#160;'footer',<br />
         ));<br />
         $this-&#62;template-&#62;active('shell');<br />
         $shell = $this-&#62;template-&#62;section();
@@ -665,13 +898,24 @@
 
 
       <h2>$this-&#62;template-&#62;section([<var>'section_name'</var>])</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$section_name</dt>
+            <dd>string | &#60;Template_Section&#62; object | boolean(true)</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>object | false</dd>
+      </dl>
       <p>
         Returns a section as an instance of the Template library's section class.
         If the section does not exist, it returns <kbd>false</kbd>.<br />
         The section object will have access to all the methods described in
         "<a href="#sectionmethods" title="Jump to the Section Method Reference">Section Method Reference</a>".
       </p>
-      <code>
+      <code class="brush: php;">
         <span>// Create the section, which will also be set as the active section.</span><br />
         $this-&#62;template-&#62;create('shell', 'document');<br />
         $section = $this-&#62;template-&#62;section();<br />
@@ -684,6 +928,17 @@
 
 
       <h2>$this-&#62;template-&#62;link(<samp>$links</samp>)</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$links</dt>
+            <dd>array(string =&#62; array(string, ...), ...)</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>void</dd>
+      </dl>
       <p class="important">
         <strong>Note:</strong>
         There is no need to use this method if the Autolinking feature is enabled.
@@ -694,12 +949,12 @@
         reference tag in the view if it has been linked using this method first. This allows
         you to mix and match which tags in a view are operational for this template load.
       </p>
-      <code>
+      <code class="brush: php;">
         $this-&#62;template-&#62;create(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; 'document',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'content',<br />
+        &#160;&#160;&#160;&#160;'shell' =&#62; 'document',<br />
+        &#160;&#160;&#160;&#160;'header',<br />
+        &#160;&#160;&#160;&#160;'footer',<br />
+        &#160;&#160;&#160;&#160;'content',<br />
         ));<br />
         <span>// Create a group called "features" containing 3 sections from the "featured_box" view.</span><br />
         $this-&#62;template-&#62;agroup('features', 'featured_box', array(null, null, null));<br />
@@ -712,8 +967,8 @@
         $this-&#62;template-&#62;autolink(false);<br />
         <span>// Only link the sections you want to be included in the final output.</span>
         $this-&#62;template-&#62;link(array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' =&#62; array('content'),<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'content' =&#62; array('features'),<br />
+        &#160;&#160;&#160;&#160;'shell' =&#62; array('content'),<br />
+        &#160;&#160;&#160;&#160;'content' =&#62; array('features'),<br />
         ));<br />
         $this-&#62;template-&#62;load('shell');
       </code>
@@ -724,6 +979,17 @@
 
 
       <h2>$this-&#62;template-&#62;propagate(<kbd>boolean</kbd>)</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$propagate</dt>
+            <dd>boolean</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>void</dd>
+      </dl>
       <p>
         This changes the setting for enabling or disabling the data propagation
         functionality. Pass a boolean with the value of <kbd>true</kbd> to enable or
@@ -733,6 +999,18 @@
 
 
       <h2>$this-&#62;template-&#62;autolink(<kbd>boolean</kbd>)</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$autolink</dt>
+            <dd>boolean</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>void</dd>
+      </dl>
+      <p>
       <p>
         This method changes the setting for enabling or disabling the autolink
         functionality. Yep, you've heard this before, but pass <kbd>true</kbd> to
@@ -742,20 +1020,31 @@
 
 
       <h2>$this-&#62;template-&#62;autoload(<var>'config'</var>)</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$config</dt>
+            <dd>string | array(string =&#62; mixed, ...)</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>boolean</dd>
+      </dl>
       <p>
         The autoload method enables us to save some time by setting up parts of the
         template library from config. You may either pass the name of a config file
         you wish to use, or pass the array directly to the method.<br />
         The following is an example of all the options available.
       </p>
-      <code>
+      <code class="brush: php;">
         <span>// Load the options from a config file.</span><br />
         $loaded = $this-&#62;template-&#62;autoload('template');<br />
         <br />
         <span>// Or you can pass the array directly to the method if that fails.</span><br />
         if(!$loaded) {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$config = get_config('template');<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&#62;template-&#62;autoload($config);<br />
+        &#160;&#160;&#160;&#160;$config = get_config('template');<br />
+        &#160;&#160;&#160;&#160;$this-&#62;template-&#62;autoload($config);<br />
         }
       </code>
       <p class="important">
@@ -764,34 +1053,34 @@
         <dfn>get_config()</dfn> will fail, also, as this function is called within the
         method.
       </p>
-      <code>
+      <code class="brush: php;">
         $config = array();<br />
         <br />
         $config['set_dir'] = 'subfolder';<br />
         $config['set_prefix'] = 'mobilesite_';<br />
         <br />
         $config['create']   = array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' => 'document',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'header',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'content',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'footer',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'featured_01' => 'featured_box',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'featured_02' => 'featured_box',<br />
+        &#160;&#160;&#160;&#160;'shell' => 'document',<br />
+        &#160;&#160;&#160;&#160;'header',<br />
+        &#160;&#160;&#160;&#160;'content',<br />
+        &#160;&#160;&#160;&#160;'footer',<br />
+        &#160;&#160;&#160;&#160;'featured_01' => 'featured_box',<br />
+        &#160;&#160;&#160;&#160;'featured_02' => 'featured_box',<br />
         );<br />
         <br />
         $config['group'] = array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;<span>// We can extend the "features" group in the controller with Template::join().</span><br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'features' => array('featured_01', 'featured_02'),<br />
+        &#160;&#160;&#160;&#160;<span>// We can extend the "features" group in the controller with Template::join().</span><br />
+        &#160;&#160;&#160;&#160;'features' => array('featured_01', 'featured_02'),<br />
         );<br />
         <br />
         $config['add']      = array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' => array('title' => 'Your Site Name'),<br />
+        &#160;&#160;&#160;&#160;'shell' => array('title' => 'Your Site Name'),<br />
         );<br />
         <br />
         $config['autolink'] = false;<br />
         $config['link'] = array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'shell' => array('header', 'footer', 'content'),<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'content' => array('features'),<br />
+        &#160;&#160;&#160;&#160;'shell' => array('header', 'footer', 'content'),<br />
+        &#160;&#160;&#160;&#160;'content' => array('features'),<br />
         );
       </code>
       <p>
@@ -849,7 +1138,20 @@
       </p>
 
 
-      <h2>$this-&#62;template-&#62;load(<var>'section_name'</var>, <kbd>boolean</kbd>)</h2>
+      <h2>$this-&#62;template-&#62;load(<var>'section'</var>, [<kbd>boolean</kbd>])</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$section_name</dt>
+            <dd>string | &#60;Template_Section&#62; object</dd>
+            <dt>$return</dt>
+            <dd>boolean</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>boolean</dd>
+      </dl>
       <p>
         This method is usually the last one you will call from the Template library.
         It will load the section you specify, pulling all it's linked descendants, and
@@ -869,7 +1171,7 @@
         This method can only take a valid section as its argument; groups cannot be
         rendered directly - they must be referenced from within a view.
       </p>
-      <code>
+      <code class="brush: php;">
         $this-&#62;template-&#62;create('shell', 'document');<br />
         <br />
         <span>// Render all your sections and send to output buffer.</span><br />
@@ -890,12 +1192,16 @@
 
 
       <h2>$this-&#62;template-&#62;section()-&#62;name()</h2>
+      <dl>
+        <dt>Returns</dt>
+        <dd>string</dd>
+      </dl>
       <p>
         Returns the name of the section. Whilst this won't really be used much, as
         most of the library uses string to identify sections, there may be times where
         you have the section object, and wish to know the name.
       </p>
-      <code>
+      <code class="brush: php;">
         <span>// You've been given the $section variable from somewhere.</span><br />
         $section = $this->template->section($unknown_value);<br />
         <br />
@@ -906,6 +1212,10 @@
 
 
       <h2>$this->template->section()->view()</h2>
+      <dl>
+        <dt>Returns</dt>
+        <dd>string | boolean(false)</dd>
+      </dl>
       <p>
         Returns the name of the view that the section is using. This will the view you
         specified with the <dfn>create()</dfn> method, and will not contain the view
@@ -919,6 +1229,17 @@
 
 
       <h2>$this-&#62;template-&#62;section()-&#62;data([<samp>$data</samp>])</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$data</dt>
+            <dd>array(string =&#62; mixed, ...)</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>array(string =&#62; mixed, ...)</dd>
+      </dl>
       <p>
         This method, with no parameters passed, will return all the data that has been
         added to the section so far. If an array is passed as the first parameter, it
@@ -927,7 +1248,7 @@
         already been added. This method is used to pass a parent data to its child if
         data propagation is enabled.
       </p>
-      <code>
+      <code class="brush: php;">
         <span>// Fetch the data that we have added to the section already.</span><br />
         $data = $this->template->section()->data();<br />
         <br />
@@ -938,6 +1259,10 @@
 
 
       <h2>$this-&#62;template-&#62;section()-&#62;content()</h2>
+      <dl>
+        <dt>Returns</dt>
+        <dd>string</dd>
+      </dl>
       <p>
         Return the content of the section. If this is an anonymous section, then it
         will simply return the string you supplied it when you created it.<br />
@@ -959,7 +1284,7 @@
         even if you have specifically linked them using the <dfn>link()</dfn> method.<br />
         Sections are not combined until the <dfn>load()</dfn> method is invoked.
       </p>
-      <code>
+      <code class="brush: php;">
         <span>// For example.</span><br />
         $html = $this->template->section()->content();
       </code>
@@ -968,7 +1293,27 @@
       </p>
 
 
-      <h2>$this-&#62;template-&#62;section()-&#62;add(<samp>$data</samp> | <var>'name'</var>, <var>'value'</var>)</h2>
+      <h2>$this-&#62;template-&#62;section()-&#62;add(<samp>$data</samp> || <var>'name'</var>, <var>'value'</var>)</h2>
+      <dl>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$data</dt>
+            <dd>object | array(string =&#62; mixed, ...)</dd>
+          </dl>
+        </dd>
+        <dt>Parameters</dt>
+        <dd>
+          <dl>
+            <dt>$name</dt>
+            <dd>string</dd>
+            <dt>$value</dt>
+            <dd>mixed</dd>
+          </dl>
+        </dd>
+        <dt>Returns</dt>
+        <dd>boolean</dd>
+      </dl>
       <p>
         Adding data to a section is the same as passing data to a view. The data in
         the section is stored in the object - accessible via the <dfn>data()</dfn>
@@ -976,15 +1321,15 @@
         method is called. You may keep calling this method over and over again to
         stock-pile your data, ready to be used within the sections designated view.
       </p>
-      <code>
+      <code class="brush: php;">
         $this-&#62;template-&#62;section()-&#62;add('variable_name', 'variable_value');<br />
         $this-&#62;template-&#62;section()-&#62;add('another_variable', 123);<br />
         <br />
         <span>// Passing an array as the only parameter allows you to pass multiple sets of</span><br />
         <span>// data at once, just like when you load a view.</span><br />
         $data = array(<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'var1' =&#62; 'value1',<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;'var2' =&#62; 'value2',<br />
+        &#160;&#160;&#160;&#160;'var1' =&#62; 'value1',<br />
+        &#160;&#160;&#160;&#160;'var2' =&#62; 'value2',<br />
         );<br />
         $this-&#62;template-&#62;section()-&#62;add($data);
       </code>
@@ -1001,7 +1346,7 @@
         Treating a section object as a string is a shortcut for returning the output
         of the <dfn>load()</dfn> method, had it been called on that section.
       </p>
-      <code>
+      <code class="brush: php;">
         $shell = $this-&#62;template-&#62;section('shell');<br />
         <br />
         <span>// The following two statements are equivalent:</span><br />
@@ -1027,7 +1372,7 @@
         <dfn>add()</dfn> method. Please refer to that method for the parameters it
         accepts.
       </p>
-      <code>
+      <code class="brush: php;">
         $shell = $this-&#62;template-&#62;section('shell');<br />
         $shell('title', 'Your Document Title');
       </code>
@@ -1050,5 +1395,13 @@
       </p>
 
     </div>
+    <script type="text/javascript" src="./js/shCore.js"></script>
+    <script type="text/javascript" src="./js/shBrushes.js"></script>
+    <script type="text/javascript">
+      (function(a){var e=["./css/shCore.css"],c=a.getElementsByTagName("head")[0];for(var b=0;b<e.length;b++){var d=a.createElement("link");d.href=e[b];d.rel="stylesheet";c.appendChild(d)}})(document);
+      SyntaxHighlighter.config.tagName = "code";
+      SyntaxHighlighter.config.stripBrs = true;
+      SyntaxHighlighter.all();
+    </script>
   </body>
 </html>
