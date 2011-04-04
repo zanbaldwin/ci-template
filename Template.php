@@ -231,9 +231,9 @@
 
     /**
      * Constructor Function
-     * 
+     *
      * Enter some amazing description here ...
-     * 
+     *
      * @access public
      * @param array $params
      * @return void
@@ -682,6 +682,16 @@
      * @return boolean
      */
     public function ajoin($group, $view, $data = array()) {
+      // If $data is a positive integer, make $data an array container that
+      // number of empty arrays.
+      if(is_int($data) && $data > 0) {
+        $n = $data;
+        $data = array();
+        for($i = 0; $i < $n; $i++) {
+          $data[] = array();
+        }
+      }
+      // Variable data checks.
       if(!isset($this->sections[$group])
          || !is_array($this->sections[$group])
          || !is_array($data)
@@ -710,7 +720,7 @@
     /**
      * Combine Sections
      *
-     * 
+     *
      *
      * @access protected
      * @param string $section
@@ -880,7 +890,7 @@
       log_message('debug', 'Template Class Sent Output: ' . $section);
       return true;
     }
-  
+
 }
 
 //------------------------------------------------------------------------------
@@ -902,7 +912,7 @@
    * @version    1.0
    */
   class Template_Section extends Template_Base {
-  
+
     protected $name = false,
               $data = array(),
               $view = false,
@@ -933,7 +943,7 @@
       }
       $this->CI =& get_instance();
     }
-  
+
     /**
      * Section Name
      *
@@ -1008,7 +1018,7 @@
       );
       return $content;
     }
-  
+
     /**
      * Add Data
      *
