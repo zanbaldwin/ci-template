@@ -1,9 +1,10 @@
 <?php
 
 /**
- * CodeIgniter
+ * CodeIgniter Library
  *
- * An open source application development framework for PHP 4.3.2 or newer
+ * Formatting is the Drupal Coding Standards with reduced spacing between
+ * conditional keywords and parenthesis.
  *
  * @package   CodeIgniter
  * @author    ExpressionEngine Dev Team
