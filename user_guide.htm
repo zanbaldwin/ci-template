@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
   <head>
@@ -157,11 +156,11 @@
       <h2>Initializing the Class</h2>
       <p>
         Like most other classes in CodeIgniter, the Template library is initialized
-        in your controller using the <dfn>$this->load->library()</dfn> function:
+        in your controller using the <dfn>$this-&#62;load-&#62;library()</dfn> function:
       </p>
-      <code class="brush: php;">$this->load->library('template');</code>
+      <code class="brush: php;">$this-&#62;load-&#62;library('template');</code>
       <p>
-        Once loaded, the Template library object will be available using: <dfn>$this->template</dfn>
+        Once loaded, the Template library object will be available using: <dfn>$this-&#62;template</dfn>
       </p>
 
 
@@ -293,13 +292,13 @@
         $results = $db-&#62;query($query);<br />
         <br />
         <span>// Create a group, consisting of multiple versions of a specified view from the data passed.</span><br />
-        $this-&#62;template-&#62;agroup('group_name', 'view_name', $results->fetch_all());<br />
+        $this-&#62;template-&#62;agroup('group_name', 'view_name', $results-&#62;fetch_all());<br />
         <br />
         <span>// For comparison, this is the same as the following.</span><br />
         $this-&#62;template-&#62;group('group_name');<br />
         while($row = $results-&#62;fetch_assoc()) {<br />
         &#160;&#160;&#160;&#160;$this-&#62;template-&#62;create('section_' . $row['id'], 'view_name');<br />
-        &#160;&#160;&#160;&#160;$this-&#62;template-&#62;section()->add($row);<br />
+        &#160;&#160;&#160;&#160;$this-&#62;template-&#62;section()-&#62;add($row);<br />
         &#160;&#160;&#160;&#160;$this-&#62;template-&#62;join('group_name', $this-&#62;template-&#62;section());<br />
         }
       </code>
@@ -491,7 +490,7 @@
       <h1 id="reference">Method Reference</h1>
 
 
-      <h2>$this->template->set_dir(<var>'dir_name'</var>)</h2>
+      <h2>$this-&#62;template-&#62;set_dir(<var>'dir_name'</var>)</h2>
       <dl>
         <dt>Parameters</dt>
         <dd>
@@ -512,14 +511,14 @@
       </p>
       <code class="brush: php;">
         <span>// The section will have the view "views/document.php".</span><br />
-        $this->template->create('document');<br />
+        $this-&#62;template-&#62;create('document');<br />
         <br />
         <span>// The following section will have the view "views/myTheme/document.php".</span><br />
-        $this->template->set_dir('myTheme');<br />
-        $this->template->create('document');<br />
+        $this-&#62;template-&#62;set_dir('myTheme');<br />
+        $this-&#62;template-&#62;create('document');<br />
         <br />
         <span>// You can set a directory any number of levels deep, too.</span><br />
-        $this->template->set_dir('nested/directories/work/fine');
+        $this-&#62;template-&#62;set_dir('nested/directories/work/fine');
       </code>
       <p>
         The first, and only, parameter contains the name of the directory, relative to
@@ -529,7 +528,7 @@
       </p>
 
 
-      <h2>$this->template->set_prefix(<var>'prefix'</var>)</h2>
+      <h2>$this-&#62;template-&#62;set_prefix(<var>'prefix'</var>)</h2>
       <dl>
         <dt>Parameters</dt>
         <dd>
@@ -546,8 +545,8 @@
       </p>
       <code class="brush: php;">
         <span>// The section will have the view "views/prefix_document.php".</span><br />
-        $this->template->set_prefix('prefix_');<br />
-        $this->template->create('document');
+        $this-&#62;template-&#62;set_prefix('prefix_');<br />
+        $this-&#62;template-&#62;create('document');
       </code>
       <p>
         The first, and only, parameter must be a string containing alphanumeric
@@ -557,7 +556,7 @@
       </p>
 
 
-      <h2>$this->template->view_exists(<var>'view_name'</var>)</h2>
+      <h2>$this-&#62;template-&#62;view_exists(<var>'view_name'</var>)</h2>
       <dl>
         <dt>Parameters</dt>
         <dd>
@@ -580,18 +579,18 @@
         <span>// document.php</span><br />
         <span>// myTheme / prefix_header.php</span><br />
         <br />
-        $this->template->view_exists('document');                  // bool(true)<br />
-        $this->template->view_exists('myTheme/prefix_header.php'); // bool(true)<br />
+        $this-&#62;template-&#62;view_exists('document');                  // bool(true)<br />
+        $this-&#62;template-&#62;view_exists('myTheme/prefix_header.php'); // bool(true)<br />
         <br />
-        $this->template->set_dir('myTheme');<br />
-        $this->template->view_exists('header');                    // bool(false)<br />
+        $this-&#62;template-&#62;set_dir('myTheme');<br />
+        $this-&#62;template-&#62;view_exists('header');                    // bool(false)<br />
         <br />
-        $this->template->set_prefix('prefix_');<br />
-        $this->template->view_exists('header')                     // bool(true);
+        $this-&#62;template-&#62;set_prefix('prefix_');<br />
+        $this-&#62;template-&#62;view_exists('header')                     // bool(true);
       </code>
 
 
-      <h2>$this->template->section_exists(<var>'section_name'</var>)</h2>
+      <h2>$this-&#62;template-&#62;section_exists(<var>'section_name'</var>)</h2>
       <dl>
         <dt>Parameters</dt>
         <dd>
@@ -609,16 +608,16 @@
         whether it exists or not.
       </p>
       <code class="brush: php;">
-        $this->template->create('document');<br />
+        $this-&#62;template-&#62;create('document');<br />
         <br />
         <span>// Did we create that section? I can't remember now.</span><br />
-        if($this->template->section_exists('document')) {<br />
-        &#160;&#160;&#160;&#160;$this->template->section('document')->add('data', 'some_data');<br />
+        if($this-&#62;template-&#62;section_exists('document')) {<br />
+        &#160;&#160;&#160;&#160;$this-&#62;template-&#62;section('document')-&#62;add('data', 'some_data');<br />
         }
       </code>
 
 
-      <h2>$this-template->create(<samp>$sections</samp> || <var>'section_name'</var>, [<var>'view_name'</var>])</h2>
+      <h2>$this-template-&#62;create(<samp>$sections</samp> || <var>'section_name'</var>, [<var>'view_name'</var>])</h2>
       <dl>
         <dt>Parameters</dt>
         <dd>
@@ -666,7 +665,7 @@
       </p>
 
 
-      <h2>$this->template->acreate(<samp>$sections</samp> | <var>'section_name'</var>, <var>'content'</var>)</h2>
+      <h2>$this-&#62;template-&#62;acreate(<samp>$sections</samp> | <var>'section_name'</var>, <var>'content'</var>)</h2>
       <dl>
         <dt>Parameters</dt>
         <dd>
@@ -709,7 +708,7 @@
         &#160;&#160;&#160;&#160;'content' =&#62; '&#60;p&#62;This is my content.&#60;/p&#62;',<br />
         &#160;&#160;&#160;&#160;'footer' =&#62; '&amp;copy; 2010.'<br />
         );<br />
-        $this->template->acreate($sections);
+        $this-&#62;template-&#62;acreate($sections);
       </code>
 
 
@@ -1188,7 +1187,7 @@
         $this-&#62;template-&#62;create('shell', 'document');<br />
         <br />
         <span>// Render all your sections and send to output buffer.</span><br />
-        $this->template->load('shell');<br />
+        $this-&#62;template-&#62;load('shell');<br />
         <br />
         <span>// If you'd prefer the rendered output to return rather than be sent to</span><br />
         <span>// CodeIgniter's Output class, pass bool(true) as the second parameter.</span><br />
@@ -1216,15 +1215,15 @@
       </p>
       <code class="brush: php;">
         <span>// You've been given the $section variable from somewhere.</span><br />
-        $section = $this->template->section($unknown_value);<br />
+        $section = $this-&#62;template-&#62;section($unknown_value);<br />
         <br />
         <span>// And viola! We know what section it is now!</span><br />
-        $section_name = $section->name();
+        $section_name = $section-&#62;name();
       </code>
       <p>This method takes no parameters.</p>
 
 
-      <h2>$this->template->section()->view()</h2>
+      <h2>$this-&#62;template-&#62;section()-&#62;view()</h2>
       <dl>
         <dt>Returns</dt>
         <dd>string | boolean(false)</dd>
@@ -1263,11 +1262,11 @@
       </p>
       <code class="brush: php;">
         <span>// Fetch the data that we have added to the section already.</span><br />
-        $data = $this->template->section()->data();<br />
+        $data = $this-&#62;template-&#62;section()-&#62;data();<br />
         <br />
         <span>// Let the section inherit another sections data.</span><br />
-        $data = $this->template->section('another_section')->data();<br />
-        $this->template->section()->data($data);
+        $data = $this-&#62;template-&#62;section('another_section')-&#62;data();<br />
+        $this-&#62;template-&#62;section()-&#62;data($data);
       </code>
 
 
@@ -1299,7 +1298,7 @@
       </p>
       <code class="brush: php;">
         <span>// For example.</span><br />
-        $html = $this->template->section()->content();
+        $html = $this-&#62;template-&#62;section()-&#62;content();
       </code>
       <p>
         This method takes no <del>prisoners</del> <ins>parameters</ins>.
