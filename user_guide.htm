@@ -205,7 +205,7 @@
         method or enabling autolinking.
       </p>
       <code class="brush: php;">
-        <span>// Create the sections we are going to use.</span><br />
+        // Create the sections we are going to use.<br />
         $this-&#62;template-&#62;create(array(<br />
         &#160;&#160;&#160;&#160;'shell' =&#62; 'document',<br />
         &#160;&#160;&#160;&#160;'header',<br />
@@ -213,11 +213,11 @@
         &#160;&#160;&#160;&#160;'footer',<br />
         ));<br />
         <br />
-        <span>// In most cases, just let the Template library link the sections together for you.</span><br />
-        <span>// Autolinking is enabled by default. The following is just a reference.</span><br />
+        // In most cases, just let the Template library link the sections together for you.<br />
+        // Autolinking is enabled by default. The following is just a reference.<br />
         $this-&#62;template-&#62;autolink(true);<br />
         <br />
-        <span>// Sometimes you would want to manually specify the links between sections.</span><br />
+        // Sometimes you would want to manually specify the links between sections.<br />
         $this-&#62;template-&#62;autolink(false);<br />
         $links = array(<br />
         &#160;&#160;&#160;&#160;'shell' =&#62; array('header', 'content', 'footer'),<br />
@@ -245,7 +245,7 @@
         &#160;&#160;&#160;&#160;'view3',<br />
         ));<br />
         <br />
-        <span>// Specify what you would like to call the group, and the sections it will contain.</span><br />
+        // Specify what you would like to call the group, and the sections it will contain.<br />
         $this-&#62;template-&#62;group('group_name', array('view1', 'view2', 'view3'));
       </code>
       <p>
@@ -260,7 +260,7 @@
         ));<br />
         $this-&#62;template-&#62;group('group_name', array('view1'));<br />
         <br />
-        <span>// Specify the name of the group you wish to add to, and a list of sections to be added.</span><br />
+        // Specify the name of the group you wish to add to, and a list of sections to be added.<br />
         $this-&#62;template-&#62;join('group_name', array('view2', 'view3'));
       </code>
 
@@ -283,18 +283,18 @@
         a set of data, and adding it to a group multiple times.
       </p>
       <code class="brush: php;">
-        <span>// Grab some data to create lots of views from.</span><br />
+        // Grab some data to create lots of views from.<br />
         $db = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);<br />
-        $query = "SELECT `id`, `and`, `various`, `pieces`, `of, `data`<br />
+        $query = "SELECT `id`, `and`, `various`, `pieces`, `of`, `data`<br />
         &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;FROM `your_db`.`your_tbl`<br />
         &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;WHERE `condition` = 'value'<br />
         &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;LIMIT 5;";<br />
         $results = $db-&#62;query($query);<br />
         <br />
-        <span>// Create a group, consisting of multiple versions of a specified view from the data passed.</span><br />
+        // Create a group, consisting of multiple versions of a specified view from the data passed.<br />
         $this-&#62;template-&#62;agroup('group_name', 'view_name', $results-&#62;fetch_all());<br />
         <br />
-        <span>// For comparison, this is the same as the following.</span><br />
+        // For comparison, this is the same as the following.<br />
         $this-&#62;template-&#62;group('group_name');<br />
         while($row = $results-&#62;fetch_assoc()) {<br />
         &#160;&#160;&#160;&#160;$this-&#62;template-&#62;create('section_' . $row['id'], 'view_name');<br />
@@ -306,12 +306,12 @@
         If you don't want all the sections in the group to have the same view, you can use the <dfn>ajoin()</dfn> method.
       </p>
       <code class="brush: php;">
-        <span>// Grab your two sets of data.</span><br />
+        // Grab your two sets of data.<br />
         $db = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);<br />
         $males = $db-&#62;query("SELECT * FROM your_tbl WHERE `gender` = 'male' LIMIT 5;");<br />
         $females = $db-&#62;query("SELECT * FROM your_tbl WHERE `gender` = 'female' LIMIT 5;");<br />
         <br />
-        <span>// Create your anonymous group, and then add more anonymous sections which are associated with a different view.</span><br />
+        // Create your anonymous group, and then add more anonymous sections which are associated with a different view.<br />
         $this-&#62;template-&#62;agroup('group_name', 'profile_males', $males-&#62;fetch_all());<br />
         $this-&#62;template-&#62;ajoin('group_name', 'profile_females', $females-&#62;fetch_all());
       </code>
@@ -322,12 +322,12 @@
         an equivalent which you can use.
       </p>
       <code class="brush: xml;">
-        <span>Specifying a section tag rather than a group tag means that you are referencing a singular object, which gets translated:</span><br />
-        <span>From </span>&#60;!--{ref}--&#62;<span> to </span>&#60;!--{ref[1]}--&#62;<span>.</span><br />
+        Specifying a section tag rather than a group tag means that you are referencing a singular object, which gets translated:<br />
+        From &#60;!--{ref}--&#62; to &#60;!--{ref[1]}--&#62;.<br />
         <br />
-        <span>Specifying a group count of zero in your view translates to unlimited.</span><br />
-        <span>This means that not specifying a group count means the reference tag gets translated:</span><br />
-        <span>From </span>&#60;!--{ref[]}--&#62;<span> to </span>&#60;!--{ref[0]}--&#62;<span>.</span>
+        Specifying a group count of zero in your view translates to unlimited.<br />
+        This means that not specifying a group count means the reference tag gets translated:<br />
+        From &#60;!--{ref[]}--&#62; to &#60;!--{ref[0]}--&#62;.
       </code>
 
 
@@ -510,14 +510,14 @@
         Example:
       </p>
       <code class="brush: php;">
-        <span>// The section will have the view "views/document.php".</span><br />
+        // The section will have the view "views/document.php".<br />
         $this-&#62;template-&#62;create('document');<br />
         <br />
-        <span>// The following section will have the view "views/myTheme/document.php".</span><br />
+        // The following section will have the view "views/myTheme/document.php".<br />
         $this-&#62;template-&#62;set_dir('myTheme');<br />
         $this-&#62;template-&#62;create('document');<br />
         <br />
-        <span>// You can set a directory any number of levels deep, too.</span><br />
+        // You can set a directory any number of levels deep, too.<br />
         $this-&#62;template-&#62;set_dir('nested/directories/work/fine');
       </code>
       <p>
@@ -544,7 +544,7 @@
         Like set_dir(), except you specify a string to be prepended onto the view filename.
       </p>
       <code class="brush: php;">
-        <span>// The section will have the view "views/prefix_document.php".</span><br />
+        // The section will have the view "views/prefix_document.php".<br />
         $this-&#62;template-&#62;set_prefix('prefix_');<br />
         $this-&#62;template-&#62;create('document');
       </code>
@@ -575,9 +575,9 @@
         previously.
       </p>
       <code class="brush: php;">
-        <span>// Imagine, if you will, you have the following in your views folder:</span><br />
-        <span>// document.php</span><br />
-        <span>// myTheme / prefix_header.php</span><br />
+        // Imagine, if you will, you have the following in your views folder:<br />
+        // document.php<br />
+        // myTheme / prefix_header.php<br />
         <br />
         $this-&#62;template-&#62;view_exists('document');                  // bool(true)<br />
         $this-&#62;template-&#62;view_exists('myTheme/prefix_header.php'); // bool(true)<br />
@@ -610,7 +610,7 @@
       <code class="brush: php;">
         $this-&#62;template-&#62;create('document');<br />
         <br />
-        <span>// Did we create that section? I can't remember now.</span><br />
+        // Did we create that section? I can't remember now.<br />
         if($this-&#62;template-&#62;section_exists('document')) {<br />
         &#160;&#160;&#160;&#160;$this-&#62;template-&#62;section('document')-&#62;add('data', 'some_data');<br />
         }
@@ -643,15 +643,15 @@
         from views.
       </p>
       <code class="brush: php;">
-        <span>// Don't forget that sub-directory and prefix apply here.</span><br />
+        // Don't forget that sub-directory and prefix apply here.<br />
         <br />
-        <span>// Create a section called "document" from the view "views/document.php".</span><br />
+        // Create a section called "document" from the view "views/document.php".<br />
         $this-&#62;template-&#62;create('document');<br />
         <br />
-        <span>// Create a section called "document" from the view "views/myDocument.php".</span><br />
+        // Create a section called "document" from the view "views/myDocument.php".<br />
         $this-&#62;template-&#62;create('document', 'myDocument');<br />
         <br />
-        <span>// Create multiple sections in one call.</span><br />
+        // Create multiple sections in one call.<br />
         $sections = array(<br />
         &#160;&#160;&#160;&#160;'document' =&#62; 'myDocument',<br />
         &#160;&#160;&#160;&#160;'header',<br />
@@ -745,7 +745,7 @@
         &#160;&#160;&#160;&#160;'view3',<br />
         ));<br />
         <br />
-        <span>// Specify what you would like to call the group, and the sections it will contain.</span><br />
+        // Specify what you would like to call the group, and the sections it will contain.<br />
         $this-&#62;template-&#62;group('group_name', array('view1', 'view2', 'view3'));
       </code>
 
@@ -928,13 +928,13 @@
         "<a href="#sectionmethods" title="Jump to the Section Method Reference">Section Method Reference</a>".
       </p>
       <code class="brush: php;">
-        <span>// Create the section, which will also be set as the active section.</span><br />
+        // Create the section, which will also be set as the active section.<br />
         $this-&#62;template-&#62;create('shell', 'document');<br />
         $section = $this-&#62;template-&#62;section();<br />
         <br />
         $section-&#62;add('some_variable', 'some_data');<br />
         <br />
-        <span>// Because the section() method returns an object, you can chain it up like a gangsta.</span><br />
+        // Because the section() method returns an object, you can chain it up like a gangsta.<br />
         $this-&#62;template-&#62;section()-&#62;add('some_variable', 'some_data');
       </code>
 
@@ -968,16 +968,16 @@
         &#160;&#160;&#160;&#160;'footer',<br />
         &#160;&#160;&#160;&#160;'content',<br />
         ));<br />
-        <span>// Create a group called "features" containing 3 sections from the "featured_box" view.</span><br />
+        // Create a group called "features" containing 3 sections from the "featured_box" view.<br />
         $this-&#62;template-&#62;agroup('features', 'featured_box', array(null, null, null));<br />
         <br />
-        <span>// Create the full HTML output.</span><br />
+        // Create the full HTML output.<br />
         $this-&#62;template-&#62;load('shell');<br />
         <br />
-        <span>// However, if you wanted to just show the content of the page, and not the header</span><br />
-        <span>// or footer (for a print-friendly version of the page, for example).</span><br />
+        // However, if you wanted to just show the content of the page, and not the header<br />
+        // or footer (for a print-friendly version of the page, for example).<br />
         $this-&#62;template-&#62;autolink(false);<br />
-        <span>// Only link the sections you want to be included in the final output.</span>
+        // Only link the sections you want to be included in the final output.
         $this-&#62;template-&#62;link(array(<br />
         &#160;&#160;&#160;&#160;'shell' =&#62; array('content'),<br />
         &#160;&#160;&#160;&#160;'content' =&#62; array('features'),<br />
@@ -1050,10 +1050,10 @@
         The following is an example of all the options available.
       </p>
       <code class="brush: php;">
-        <span>// Load the options from a config file.</span><br />
+        // Load the options from a config file.<br />
         $loaded = $this-&#62;template-&#62;autoload('template');<br />
         <br />
-        <span>// Or you can pass the array directly to the method if that fails.</span><br />
+        // Or you can pass the array directly to the method if that fails.<br />
         if(!$loaded) {<br />
         &#160;&#160;&#160;&#160;$config = get_config('template');<br />
         &#160;&#160;&#160;&#160;$this-&#62;template-&#62;autoload($config);<br />
@@ -1081,7 +1081,7 @@
         );<br />
         <br />
         $config['group'] = array(<br />
-        &#160;&#160;&#160;&#160;<span>// We can extend the "features" group in the controller with Template::join().</span><br />
+        &#160;&#160;&#160;&#160;// We can extend the "features" group in the controller with Template::join().<br />
         &#160;&#160;&#160;&#160;'features' => array('featured_01', 'featured_02'),<br />
         );<br />
         <br />
@@ -1186,14 +1186,14 @@
       <code class="brush: php;">
         $this-&#62;template-&#62;create('shell', 'document');<br />
         <br />
-        <span>// Render all your sections and send to output buffer.</span><br />
+        // Render all your sections and send to output buffer.<br />
         $this-&#62;template-&#62;load('shell');<br />
         <br />
-        <span>// If you'd prefer the rendered output to return rather than be sent to</span><br />
-        <span>// CodeIgniter's Output class, pass bool(true) as the second parameter.</span><br />
+        // If you'd prefer the rendered output to return rather than be sent to<br />
+        // CodeIgniter's Output class, pass bool(true) as the second parameter.<br />
         $output = $this-&#62;template-&#62;load('shell', true);<br />
         <br />
-        <span>// You can also pass a section object to load.</span><br />
+        // You can also pass a section object to load.<br />
         $section = $this-&#62;template-&#62;section('shell');<br />
         $this-&#62;template-&#62;load($section);
       </code>
@@ -1214,10 +1214,10 @@
         you have the section object, and wish to know the name.
       </p>
       <code class="brush: php;">
-        <span>// You've been given the $section variable from somewhere.</span><br />
+        // You've been given the $section variable from somewhere.<br />
         $section = $this-&#62;template-&#62;section($unknown_value);<br />
         <br />
-        <span>// And viola! We know what section it is now!</span><br />
+        // And viola! We know what section it is now!<br />
         $section_name = $section-&#62;name();
       </code>
       <p>This method takes no parameters.</p>
@@ -1261,10 +1261,10 @@
         data propagation is enabled.
       </p>
       <code class="brush: php;">
-        <span>// Fetch the data that we have added to the section already.</span><br />
+        // Fetch the data that we have added to the section already.<br />
         $data = $this-&#62;template-&#62;section()-&#62;data();<br />
         <br />
-        <span>// Let the section inherit another sections data.</span><br />
+        // Let the section inherit another sections data.<br />
         $data = $this-&#62;template-&#62;section('another_section')-&#62;data();<br />
         $this-&#62;template-&#62;section()-&#62;data($data);
       </code>
@@ -1297,7 +1297,7 @@
         Sections are not combined until the <dfn>load()</dfn> method is invoked.
       </p>
       <code class="brush: php;">
-        <span>// For example.</span><br />
+        // For example.<br />
         $html = $this-&#62;template-&#62;section()-&#62;content();
       </code>
       <p>
@@ -1337,8 +1337,8 @@
         $this-&#62;template-&#62;section()-&#62;add('variable_name', 'variable_value');<br />
         $this-&#62;template-&#62;section()-&#62;add('another_variable', 123);<br />
         <br />
-        <span>// Passing an array as the only parameter allows you to pass multiple sets of</span><br />
-        <span>// data at once, just like when you load a view.</span><br />
+        // Passing an array as the only parameter allows you to pass multiple sets of<br />
+        // data at once, just like when you load a view.<br />
         $data = array(<br />
         &#160;&#160;&#160;&#160;'var1' =&#62; 'value1',<br />
         &#160;&#160;&#160;&#160;'var2' =&#62; 'value2',<br />
@@ -1361,12 +1361,12 @@
       <code class="brush: php;">
         $shell = $this-&#62;template-&#62;section('shell');<br />
         <br />
-        <span>// The following two statements are equivalent:</span><br />
+        // The following two statements are equivalent:<br />
         echo $this-&#62;template-&#62;load('shell', true);<br />
         echo $shell;<br />
         <br />
-        <span>// Notice that we echo'd out what was returned from the load() method. The</span><br />
-        <span>// following two statements are also equivalent:</span><br />
+        // Notice that we echo'd out what was returned from the load() method. The<br />
+        // following two statements are also equivalent:<br />
         $this-&#62;template-&#62;load('shell');<br />
         $this-&#62;output-&#62;append_output($shell);
       </code>
