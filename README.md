@@ -1,5 +1,5 @@
-CodeIgniter Template Library
-============================
+CodeIgniter Template Library ![Project Status](http://stillmaintained.com/mynameiszanders/ci-template.png "Project Status")
+===========================================================================================================================
 
 A Template library for [CodeIgniter] [3], by [Alexander Baldwin] [1] and
 licensed under the [MIT/X11] [2] open source license.
@@ -16,7 +16,7 @@ guide] [4] for further examples and full documentation.
 
     // Detected end-user is using a mobile browser.
     $this->template->set_prefix('mobile_');
-    
+
     // Create sections from views.
     $this->template->create(array(
       'shell' => 'document',
@@ -24,7 +24,7 @@ guide] [4] for further examples and full documentation.
       'content',
       'footer',
     ));
-    
+
     // Create an anonymous group.
     $this->template->agroup(
       'featured',
@@ -35,21 +35,21 @@ guide] [4] for further examples and full documentation.
         array('feature_name' => 'Three'),
       )
     );
-    
+
     // Set autolinking off, and enable section data to propagate.
     $this->template->autolink(false);
     $this->template->propagate(true);
-    
+
     // Link sections together
     $this->template->link(array(
         'shell' => array('header', 'content', 'footer'),
         'content' => array('featured'),
     ));
-    
+
     // Add some data to the shell section.
     $shell = $this->template->section('shell');
     $shell('title', 'Template Library');
-    
+
     // Render template and append to output.
     $this->template->load('shell');
 
