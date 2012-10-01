@@ -14,6 +14,7 @@ Here is a quick example of what you can do with the library from within your
 [CodeIgniter] [3] controller; please refer to the [online copy of the user
 guide] [4] for further examples and full documentation.
 
+```php
     // Detected end-user is using a mobile browser.
     $this->template->set_prefix('mobile_');
 
@@ -52,6 +53,7 @@ guide] [4] for further examples and full documentation.
 
     // Render template and append to output.
     $this->template->load('shell');
+```
 
 Enjoy!
 
